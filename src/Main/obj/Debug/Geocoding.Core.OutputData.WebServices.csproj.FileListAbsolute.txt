@@ -1,0 +1,5 @@
+C:\DevBuild\Tamu\GeoInnovation\Geocoding\Core.OutputData.WebServices\build\1.0.0\release\build\1.0.0\debug\Tamu.GeoInnovation.Geocoding.Core.OutputData.WebServices.dll
+C:\DevBuild\Tamu\GeoInnovation\Geocoding\Core.OutputData.WebServices\build\1.0.0\release\build\1.0.0\debug\Tamu.GeoInnovation.Geocoding.Core.OutputData.WebServices.pdb
+C:\DevSource\Tamu\GeoInnovation\Geocoding\Core.OutputData.WebServices\src\Main\obj\Debug\Geocoding.Core.OutputData.WebServices.csprojResolveAssemblyReference.cache
+C:\DevSource\Tamu\GeoInnovation\Geocoding\Core.OutputData.WebServices\src\Main\obj\Debug\Tamu.GeoInnovation.Geocoding.Core.OutputData.WebServices.dll
+C:\DevSource\Tamu\GeoInnovation\Geocoding\Core.OutputData.WebServices\src\Main\obj\Debug\Tamu.GeoInnovation.Geocoding.Core.OutputData.WebServices.pdb
