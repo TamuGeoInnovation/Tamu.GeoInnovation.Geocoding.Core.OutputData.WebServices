@@ -18,7 +18,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
 
         public double Version { get; set; }
         public string TransactionId { get; set; }
-       
+        public string MicroMatchStatus { get; set; }
+
 
         public QueryStatusCodes QueryStatusCodes { get; set; }
 
@@ -94,6 +95,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             QueryStatusCodes = QueryStatusCodes.Unknown;
             WebServiceGeocodeQueryResults = new List<WebServiceGeocodeQueryResult>();
             TransactionId = "";
+            MicroMatchStatus = "";
             
             ErrorMessage = "";
 
