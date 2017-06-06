@@ -163,6 +163,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 ret.Columns.Add("FeatureMatchingResultType");
                 ret.Columns.Add("GeocodeQualityType");
                 ret.Columns.Add("MatchScore");
+                ret.Columns.Add("MicroMatchStatus");
                 ret.Columns.Add("Version");
                 ret.Columns.Add("InterpolationType");
                 ret.Columns.Add("InterpolationSubType");
@@ -348,6 +349,14 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                         dataRow["FeatureMatchingResultType"] = webServiceGeocodeQueryResult.FeatureMatchingResultType;
                         dataRow["GeocodeQualityType"] = webServiceGeocodeQueryResult.GeocodeQualityType;
                         dataRow["MatchScore"] = webServiceGeocodeQueryResult.MatchScore;
+                        if (webServiceGeocodeQueryResult.MicroMatchStatus != null)
+                        {
+                            dataRow["MicroMatchStatus"] = webServiceGeocodeQueryResult.MicroMatchStatus;
+                        }
+                        else if (this.MicroMatchStatus != null)
+                        {
+                            dataRow["MicroMatchStatus"] = this.MicroMatchStatus;
+                        }
                         dataRow["Version"] = webServiceGeocodeQueryResult.Version;
                         dataRow["InterpolationType"] = webServiceGeocodeQueryResult.InterpolationType;
                         dataRow["InterpolationSubType"] = webServiceGeocodeQueryResult.InterpolationSubType;
@@ -802,11 +811,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append("TimeTaken").Append(separator); //3
 
             return sb.ToString();
-        }
+        }      
         
-
-        
-
         public override string ToString()
         {
             return ToString(false);
@@ -826,6 +832,37 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
 
             return ret;
         }
+
+        //PAYTON:MICROMATCHSTATUS we need to determine the actual micro match status here - this is just a placeholder
+        public bool GetMicroMatchStatus()
+        {
+            bool ret = false;
+            //
+            if (this.WebServiceGeocodeQueryResults[0].NAACCRGISCoordinateQualityCode == "00" && this.WebServiceGeocodeQueryResults[0].MatchScore > 90)
+            {
+                if (this.WebServiceGeocodeQueryResults[0].FCity != null && this.WebServiceGeocodeQueryResults[0].FZip != null)
+                {
+                    if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip)
+                    {
+                        this.MicroMatchStatus = "Match";
+                    }
+                    else
+                    {
+                        this.MicroMatchStatus = "Review";
+                    }
+                }
+                else
+                {
+                    this.MicroMatchStatus = "Review";
+                }
+            }
+            else //anything not match or review is returned as non-match
+            {
+                this.MicroMatchStatus = "Non-Match";
+            }
+            return ret;
+        }
+
 
     }
 }
