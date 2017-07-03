@@ -847,8 +847,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                     {
                         this.MicroMatchStatus = "Match";
                     }
+                    //Here we need to check against other results
+                    //if city is correct but zip is not, check other results
                     else
-                    {
+                    {                        
                         this.MicroMatchStatus = "Review";
                     }
                 }
