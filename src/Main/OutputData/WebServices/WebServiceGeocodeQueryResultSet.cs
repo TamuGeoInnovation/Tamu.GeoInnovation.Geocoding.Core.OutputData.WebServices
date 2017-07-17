@@ -839,7 +839,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             bool ret = false;
             // Coordinate code should not be used here as a street segment should be a viable match as well as parcel, point etc
             //if (this.WebServiceGeocodeQueryResults[0].NAACCRGISCoordinateQualityCode == "00" && this.WebServiceGeocodeQueryResults[0].MatchScore > 90)
-            if (this.WebServiceGeocodeQueryResults[0].MatchScore > 90)
+            if (this.WebServiceGeocodeQueryResults[0].MatchScore > 98)
                 {
                 if (this.WebServiceGeocodeQueryResults[0].FCity != null && this.WebServiceGeocodeQueryResults[0].FZip != null)
                 {
