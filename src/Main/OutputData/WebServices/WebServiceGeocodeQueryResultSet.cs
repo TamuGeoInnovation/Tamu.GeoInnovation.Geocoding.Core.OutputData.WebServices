@@ -846,7 +846,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 {
                 if (this.WebServiceGeocodeQueryResults[0].FCity != null && this.WebServiceGeocodeQueryResults[0].FZip != null)
                 {
-                    if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip)
+                    //PAYTON:MICROMATCHSTATUS If score is less than 98 don't assume it's a match without performing distance/census match test
+                    if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip && this.WebServiceGeocodeQueryResults[0].MatchScore > 98)
                     {
                         this.MicroMatchStatus = "Match";
                     }
@@ -855,6 +856,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                     else
                     {                        
                         this.MicroMatchStatus = "Review";
+                        parcelMatches = 0;
+                        streetMatches = 0;
                         double avgParcelDistance = getAverageDistance("parcel");
                         double avgStreetDistance = getAverageDistance("street");
                         //If the average distance is less than 1/5 of a mile - assume it's a good match
@@ -945,28 +948,34 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public bool getCensusMatchStatus()
         {
             bool censusMatches = true;
-            string censusTract = WebServiceGeocodeQueryResults[0].CensusRecords[0].CensusTract.ToString();
-            string censusBlock = WebServiceGeocodeQueryResults[0].CensusRecords[0].CensusBlock.ToString();
-            string countyFips = WebServiceGeocodeQueryResults[0].CensusRecords[0].CensusCountyFips.ToString();
-            foreach (var geocode in WebServiceGeocodeQueryResults)
+            if (WebServiceGeocodeQueryResults[0].CensusRecords.Count > 0)
             {
-                if(geocode.CensusRecords[0].CensusBlock != censusBlock)
+                string censusTract = WebServiceGeocodeQueryResults[0].CensusRecords[0].CensusTract.ToString();
+                string censusBlock = WebServiceGeocodeQueryResults[0].CensusRecords[0].CensusBlock.ToString();
+                string countyFips = WebServiceGeocodeQueryResults[0].CensusRecords[0].CensusCountyFips.ToString();
+                foreach (var geocode in WebServiceGeocodeQueryResults)
                 {
-                    censusMatches = false;
-                    break;
-                }
-                else if(geocode.CensusRecords[0].CensusTract != censusTract)
-                {
-                    censusMatches = false;
-                    break;
-                }
-                else if (geocode.CensusRecords[0].CensusCountyFips != countyFips)
-                {
-                    censusMatches = false;
-                    break;
+                    if (geocode.CensusRecords[0].CensusBlock != censusBlock)
+                    {
+                        censusMatches = false;
+                        break;
+                    }
+                    else if (geocode.CensusRecords[0].CensusTract != censusTract)
+                    {
+                        censusMatches = false;
+                        break;
+                    }
+                    else if (geocode.CensusRecords[0].CensusCountyFips != countyFips)
+                    {
+                        censusMatches = false;
+                        break;
+                    }
                 }
             }
-           
+            else
+            {
+                censusMatches = false;
+            }
             return censusMatches;
         }
     }
