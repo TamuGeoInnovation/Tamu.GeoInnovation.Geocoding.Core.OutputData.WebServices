@@ -842,47 +842,53 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             bool ret = false;
             // Coordinate code should not be used here as a street segment should be a viable match as well as parcel, point etc
             //if (this.WebServiceGeocodeQueryResults[0].NAACCRGISCoordinateQualityCode == "00" && this.WebServiceGeocodeQueryResults[0].MatchScore > 90)
-            if (this.WebServiceGeocodeQueryResults[0].MatchScore > 88)
+            if (this.WebServiceGeocodeQueryResults.Count > 0) //if no geocodes - return non-match
+            {
+                if (this.WebServiceGeocodeQueryResults[0].MatchScore > 88)
                 {
-                if (this.WebServiceGeocodeQueryResults[0].FCity != null && this.WebServiceGeocodeQueryResults[0].FZip != null)
-                {
-                    //PAYTON:MICROMATCHSTATUS If score is less than 98 don't assume it's a match without performing distance/census match test
-                    if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip && this.WebServiceGeocodeQueryResults[0].MatchScore > 98)
+                    if (this.WebServiceGeocodeQueryResults[0].FCity != null && this.WebServiceGeocodeQueryResults[0].FZip != null)
                     {
-                        this.MicroMatchStatus = "Match";
+                        //PAYTON:MICROMATCHSTATUS If score is less than 98 don't assume it's a match without performing distance/census match test
+                        if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip && this.WebServiceGeocodeQueryResults[0].MatchScore > 98)
+                        {
+                            this.MicroMatchStatus = "Match";
+                        }
+                        //Here we need to check against other results
+                        //if city is correct but zip is not, check other results
+                        else
+                        {
+                            this.MicroMatchStatus = "Review";
+                            parcelMatches = 0;
+                            streetMatches = 0;
+                            double avgParcelDistance = getAverageDistance("parcel");
+                            double avgStreetDistance = getAverageDistance("street");
+                            //If the average distance is less than 1/5 of a mile - assume it's a good match
+                            //Adding a count check as well to account for all navteq references to return a non-valid match but all the same coords
+                            //if count is > 5 it's safe to assume that multiple references are reporting the same location for the address
+                            if (avgParcelDistance < .05 && parcelMatches > 1 && getCensusMatchStatus())
+                            {
+                                this.MicroMatchStatus = "Match";
+                            }
+                            if (parcelMatches == 0 && streetMatches > 1 && avgStreetDistance < .05 && getCensusMatchStatus())
+                            {
+                                this.MicroMatchStatus = "Match";
+                            }
+                        }
                     }
-                    //Here we need to check against other results
-                    //if city is correct but zip is not, check other results
                     else
-                    {                        
+                    {
                         this.MicroMatchStatus = "Review";
-                        parcelMatches = 0;
-                        streetMatches = 0;
-                        double avgParcelDistance = getAverageDistance("parcel");
-                        double avgStreetDistance = getAverageDistance("street");
-                        //If the average distance is less than 1/5 of a mile - assume it's a good match
-                        //Adding a count check as well to account for all navteq references to return a non-valid match but all the same coords
-                        //if count is > 5 it's safe to assume that multiple references are reporting the same location for the address
-                        if (avgParcelDistance < .05 && parcelMatches>1 && getCensusMatchStatus())
-                        {
-                            this.MicroMatchStatus = "Match";
-                        }
-                        if (parcelMatches == 0 && streetMatches>1 && avgStreetDistance < .05 && getCensusMatchStatus())
-                        {
-                            this.MicroMatchStatus = "Match";
-                        }
                     }
                 }
-                else
+                else //anything not match or review is returned as non-match
                 {
-                    this.MicroMatchStatus = "Review";
+                    this.MicroMatchStatus = "Non-Match";
                 }
             }
-            else //anything not match or review is returned as non-match
+            else
             {
                 this.MicroMatchStatus = "Non-Match";
             }
-            
             return ret;
         }
 
