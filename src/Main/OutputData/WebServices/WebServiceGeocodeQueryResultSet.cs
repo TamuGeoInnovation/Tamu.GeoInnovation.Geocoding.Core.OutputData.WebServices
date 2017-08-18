@@ -98,7 +98,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             QueryStatusCodes = QueryStatusCodes.Unknown;
             WebServiceGeocodeQueryResults = new List<WebServiceGeocodeQueryResult>();
             TransactionId = "";
-            MicroMatchStatus = "";
+            if (version > 4.0)
+            {
+                MicroMatchStatus = "";
+            }
             
             ErrorMessage = "";
 
