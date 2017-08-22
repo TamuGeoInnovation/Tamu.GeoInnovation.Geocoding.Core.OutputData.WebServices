@@ -2119,7 +2119,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 }
             }
             //PAYTON:MicroMatchStatus for v4.03
-            sb.Append("MicroMatchStatus").Append(separator); //28
+            sb.Append(MicroMatchStatus).Append(separator); //28
             return sb.ToString();
         }
 
