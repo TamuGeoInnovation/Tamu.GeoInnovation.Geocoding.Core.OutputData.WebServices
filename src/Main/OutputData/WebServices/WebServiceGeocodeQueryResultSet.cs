@@ -854,7 +854,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                         if (this.WebServiceGeocodeQueryResults[0].FCity != null && this.WebServiceGeocodeQueryResults[0].FZip != null)
                         {
                             //PAYTON:MICROMATCHSTATUS If score is less than 98 don't assume it's a match without performing distance/census match test
-                            if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip && this.WebServiceGeocodeQueryResults[0].MatchScore > 98)
+                            if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip && this.WebServiceGeocodeQueryResults[0].MatchScore > 97)
                             {
                                 this.MicroMatchStatus = "Match";
                             }
