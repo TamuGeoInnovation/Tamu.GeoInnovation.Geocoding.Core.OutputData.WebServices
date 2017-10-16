@@ -9,6 +9,8 @@ using USC.GISResearchLab.Census.Core.Configurations.ServerConfigurations;
 using System.Drawing;
 using USC.GISResearchLab.Core.WebServices.ResultCodes;
 using USC.GISResearchLab.Geocoding.Core.Metadata.FeatureMatchingResults;
+using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.LastLines;
+using Tamu.GeoInnovation.Geocoding.Core.Algorithms.PenaltyScoring;
 
 namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
 {
@@ -21,6 +23,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public double Version { get; set; }
         public string TransactionId { get; set; }
         public string MicroMatchStatus { get; set; }
+        public PenaltyCodeResult PenaltyCodeResult { get; set; }
+        public string PenaltyCode { get; set; }
 
         public int parcelMatches = 0;
         public int streetMatches = 0;
@@ -170,6 +174,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 ret.Columns.Add("GeocodeQualityType");
                 ret.Columns.Add("MatchScore");
                 ret.Columns.Add("MicroMatchStatus");
+                ret.Columns.Add("PenaltyCodeResult");
+                ret.Columns.Add("PenaltyCode");                
                 ret.Columns.Add("Version");
                 ret.Columns.Add("InterpolationType");
                 ret.Columns.Add("InterpolationSubType");
@@ -362,6 +368,23 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                         else if (this.MicroMatchStatus != null)
                         {
                             dataRow["MicroMatchStatus"] = this.MicroMatchStatus;
+                        }
+                        //PAYTON:PENALTYCODE handle same as micromatch status above
+                        if (webServiceGeocodeQueryResult.PenaltyCode != null)
+                        {
+                            dataRow["PenaltyCode"] = webServiceGeocodeQueryResult.PenaltyCode;
+                        }
+                        else if (this.PenaltyCode != null)
+                        {
+                            dataRow["PenaltyCode"] = this.PenaltyCode;
+                        }
+                        if (webServiceGeocodeQueryResult.PenaltyCodeResult != null)
+                        {
+                            dataRow["PenaltyCodeResult"] = webServiceGeocodeQueryResult.PenaltyCodeResult;
+                        }
+                        else if (this.PenaltyCodeResult != null)
+                        {
+                            dataRow["PenaltyCodeResult"] = this.PenaltyCodeResult;
                         }
                         dataRow["Version"] = webServiceGeocodeQueryResult.Version;
                         dataRow["InterpolationType"] = webServiceGeocodeQueryResult.InterpolationType;
@@ -845,6 +868,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             bool ret = false;
             // Coordinate code should not be used here as a street segment should be a viable match as well as parcel, point etc
             //if (this.WebServiceGeocodeQueryResults[0].NAACCRGISCoordinateQualityCode == "00" && this.WebServiceGeocodeQueryResults[0].MatchScore > 90)
+            //this.PenaltyCodeResult = new PenaltyCodeResult();
             if (this.WebServiceGeocodeQueryResults.Count > 0) //if no geocodes - return non-match
             {
                 if (this.WebServiceGeocodeQueryResults[0].MatchScore < 100)
@@ -856,7 +880,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                             //PAYTON:MICROMATCHSTATUS If score is less than 98 don't assume it's a match without performing distance/census match test
                             if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip && this.WebServiceGeocodeQueryResults[0].MatchScore > 97)
                             {
-                                this.MicroMatchStatus = "Match";
+                                this.MicroMatchStatus = "Match";                               
                             }
                             //Here we need to check against other results
                             //if city is correct but zip is not, check other results
@@ -892,6 +916,12 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 }
                 else //if we reach here matchscore is 100 so return match
                 {
+                    //PAYTON:PENALTYCODE
+                    //if city is alias - update penalty
+                    //if (WebServiceGeocodeQueryResults[0].FCity != WebServiceGeocodeQueryResults[0].PCity && CityUtils.isValidAlias(WebServiceGeocodeQueryResults[0].FCity, WebServiceGeocodeQueryResults[0].PCity, WebServiceGeocodeQueryResults[0].PState))
+                    //{
+                    //    this.PenaltyCodeResult.city = 1;
+                    //}
                     this.MicroMatchStatus = "Match";
                 }                
             }
@@ -899,6 +929,11 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             {
                 this.MicroMatchStatus = "Non-Match";
             }
+            
+            //scoreResult.Add(penalty.AddressComponent.ToString(), penalty.PenaltyValue.ToString());
+            
+            //this.PenaltyCodeResult.getPenalty(scoreResult);
+            //this.PenaltyCode = this.PenaltyCodeResult.getPenaltyString();
             return ret;
         }
 

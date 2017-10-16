@@ -151,7 +151,6 @@
     <ProjectReference Include="..\..\..\AddressProcessing.Core\src\Main\AddressProcessing.Core.Dev.csproj">
       <Project>{D971C282-ECC4-4C07-A481-5BC862934B96}</Project>
       <Name>AddressProcessing.Core.Dev</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common.Core.Addresses\Src\Main\Common.Core.Addresses.Dev.csproj">
       <Project>{29C0949B-4D41-4138-B59B-6DE4A6A1774E}</Project>
@@ -176,6 +175,14 @@
       <Project>{58A97F94-A955-473B-9FF7-80892B17B0B5}</Project>
       <Name>Geocoding.Core.Algorithms.FeatureMatching.SelectionMethods.Dev</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Geocoding.Core.Algorithms.FeatureMatchScorers.MatchScoreResults\src\Main\Geocoding.Core.Algorithms.FeatureMatchScorers.MatchScoreResults.Dev.csproj">
+      <Project>{1b0d73cf-1bf7-41eb-8792-e30319222ad7}</Project>
+      <Name>Geocoding.Core.Algorithms.FeatureMatchScorers.MatchScoreResults.Dev</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Geocoding.Core.Algorithms.PenaltyScoring\src\Main\Geocoding.Core.Algorithms.PenaltyScoring.Dev.csproj">
+      <Project>{dda124f6-c2d0-4023-8e54-e2f4f7ac3bbf}</Project>
+      <Name>Geocoding.Core.Algorithms.PenaltyScoring.Dev</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Geocoding.Core.Algorithms.TieHandling.Types\src\Main\Geocoding.Core.Algorithms.TieHandling.Types.Dev.csproj">
       <Project>{92552C9A-68D0-47AD-90A6-601674C5AE33}</Project>
