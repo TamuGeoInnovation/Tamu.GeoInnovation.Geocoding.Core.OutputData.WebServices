@@ -868,7 +868,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             bool ret = false;
             // Coordinate code should not be used here as a street segment should be a viable match as well as parcel, point etc
             //if (this.WebServiceGeocodeQueryResults[0].NAACCRGISCoordinateQualityCode == "00" && this.WebServiceGeocodeQueryResults[0].MatchScore > 90)
-            //this.PenaltyCodeResult = new PenaltyCodeResult();
+            this.PenaltyCodeResult = new PenaltyCodeResult();
             if (this.WebServiceGeocodeQueryResults.Count > 0) //if no geocodes - return non-match
             {
                 if (this.WebServiceGeocodeQueryResults[0].MatchScore < 100)
@@ -897,11 +897,12 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                                 if (avgParcelDistance < .05 && parcelMatches > 1 && getCensusMatchStatus())
                                 {
                                     this.MicroMatchStatus = "Match";
-                                }
+                                }                                
                                 if (parcelMatches == 0 && streetMatches > 1 && avgStreetDistance < .05 && getCensusMatchStatus())
                                 {
                                     this.MicroMatchStatus = "Match";
                                 }
+                                getDistancePenalty((avgParcelDistance+ avgStreetDistance)/2);
                             }
                         }
                         else
@@ -917,11 +918,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 else //if we reach here matchscore is 100 so return match
                 {
                     //PAYTON:PENALTYCODE
-                    //if city is alias - update penalty
-                    //if (WebServiceGeocodeQueryResults[0].FCity != WebServiceGeocodeQueryResults[0].PCity && CityUtils.isValidAlias(WebServiceGeocodeQueryResults[0].FCity, WebServiceGeocodeQueryResults[0].PCity, WebServiceGeocodeQueryResults[0].PState))
-                    //{
-                    //    this.PenaltyCodeResult.city = 1;
-                    //}
+                    if (this.WebServiceGeocodeQueryResults[0].PCity != this.WebServiceGeocodeQueryResults[0].MCity && CityUtils.isValidAlias(this.WebServiceGeocodeQueryResults[0].PCity, this.WebServiceGeocodeQueryResults[0].MCity, this.WebServiceGeocodeQueryResults[0].PState))
+                    {
+                        this.PenaltyCodeResult.city = 1;
+                    }
                     this.MicroMatchStatus = "Match";
                 }                
             }
@@ -933,7 +933,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             //scoreResult.Add(penalty.AddressComponent.ToString(), penalty.PenaltyValue.ToString());
             
             //this.PenaltyCodeResult.getPenalty(scoreResult);
-            //this.PenaltyCode = this.PenaltyCodeResult.getPenaltyString();
+            this.PenaltyCode = this.PenaltyCodeResult.getPenaltyString();
             return ret;
         }
 
@@ -1028,6 +1028,38 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 censusMatches = false;
             }
             return censusMatches;
+        }
+
+        public void getDistancePenalty(double avgDistance)
+        {
+            if (avgDistance <= .00094697 && avgDistance > 0) //5ft or less
+            {
+                this.PenaltyCodeResult.distance = 1;
+            }
+            else if (avgDistance <= 0.00473485 && avgDistance > .00094697) //+5ft-25ft
+            {
+                this.PenaltyCodeResult.distance = 2;
+            }
+            else if (avgDistance <= 0.0094697 && avgDistance > 0.00473485) //+25ft-50ft
+            {
+                this.PenaltyCodeResult.distance = 3;
+            }
+            else if (avgDistance <= 0.0189394 && avgDistance > 0.0094697) //+50ft-100ft
+            {
+                this.PenaltyCodeResult.distance = 4;
+            }
+            else if (avgDistance <= 0.0473485 && avgDistance > 0.0189394) //+100ft-250ft
+            {
+                this.PenaltyCodeResult.distance = 5;
+            }
+            else if (avgDistance <= 0.094697 && avgDistance > 0.0473485) //+250ft-500ft
+            {
+                this.PenaltyCodeResult.distance = 6;
+            }
+            else if (avgDistance > 0.094697)  //+500ft
+            {
+                this.PenaltyCodeResult.distance = 7;
+            }
         }
     }
 }
