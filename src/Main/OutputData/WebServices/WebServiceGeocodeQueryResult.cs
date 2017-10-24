@@ -484,7 +484,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             {
                 ret = AsStringVerbose_V04_03(separator, version);
             }
-            else if (version >= 4.04)
+            else if (Version >= 4.04 && Version != 4.3)
             {
                 ret = AsStringVerbose_V04_04(separator, version);
             }
@@ -515,7 +515,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             {
                 ret = AsHeaderStringVerbose_V04_03(separator, version);
             }
-            else if (version >= 4.04)
+            else if (Version >= 4.04 && Version != 4.3)
             {
                 ret = AsHeaderStringVerbose_V04_04(separator, version);
             }

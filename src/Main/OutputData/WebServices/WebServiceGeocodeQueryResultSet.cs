@@ -174,8 +174,12 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 ret.Columns.Add("GeocodeQualityType");
                 ret.Columns.Add("MatchScore");
                 ret.Columns.Add("MicroMatchStatus");
-                ret.Columns.Add("PenaltyCodeResult");
-                ret.Columns.Add("PenaltyCode");                
+                //PAYTON:PenaltyCode
+                if (this.Version >= 4.4)
+                {
+                    ret.Columns.Add("PenaltyCodeResult");
+                    ret.Columns.Add("PenaltyCode");
+                }                              
                 ret.Columns.Add("Version");
                 ret.Columns.Add("InterpolationType");
                 ret.Columns.Add("InterpolationSubType");
@@ -370,21 +374,24 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                             dataRow["MicroMatchStatus"] = this.MicroMatchStatus;
                         }
                         //PAYTON:PENALTYCODE handle same as micromatch status above
-                        if (webServiceGeocodeQueryResult.PenaltyCode != null)
+                        if (this.Version >= 4.4)
                         {
-                            dataRow["PenaltyCode"] = webServiceGeocodeQueryResult.PenaltyCode;
-                        }
-                        else if (this.PenaltyCode != null)
-                        {
-                            dataRow["PenaltyCode"] = this.PenaltyCode;
-                        }
-                        if (webServiceGeocodeQueryResult.PenaltyCodeResult != null)
-                        {
-                            dataRow["PenaltyCodeResult"] = webServiceGeocodeQueryResult.PenaltyCodeResult;
-                        }
-                        else if (this.PenaltyCodeResult != null)
-                        {
-                            dataRow["PenaltyCodeResult"] = this.PenaltyCodeResult;
+                            if (webServiceGeocodeQueryResult.PenaltyCode != null)
+                            {
+                                dataRow["PenaltyCode"] = webServiceGeocodeQueryResult.PenaltyCode;
+                            }
+                            else if (this.PenaltyCode != null)
+                            {
+                                dataRow["PenaltyCode"] = this.PenaltyCode;
+                            }
+                            if (webServiceGeocodeQueryResult.PenaltyCodeResult != null)
+                            {
+                                dataRow["PenaltyCodeResult"] = webServiceGeocodeQueryResult.PenaltyCodeResult;
+                            }
+                            else if (this.PenaltyCodeResult != null)
+                            {
+                                dataRow["PenaltyCodeResult"] = this.PenaltyCodeResult;
+                            }
                         }
                         dataRow["Version"] = webServiceGeocodeQueryResult.Version;
                         dataRow["InterpolationType"] = webServiceGeocodeQueryResult.InterpolationType;
@@ -868,7 +875,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             bool ret = false;
             // Coordinate code should not be used here as a street segment should be a viable match as well as parcel, point etc
             //if (this.WebServiceGeocodeQueryResults[0].NAACCRGISCoordinateQualityCode == "00" && this.WebServiceGeocodeQueryResults[0].MatchScore > 90)
-            //this.PenaltyCodeResult = new PenaltyCodeResult();
+            
             if (this.WebServiceGeocodeQueryResults.Count > 0) //if no geocodes - return non-match
             {
                 if (this.WebServiceGeocodeQueryResults[0].MatchScore < 100)
@@ -902,7 +909,11 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                                 {
                                     this.MicroMatchStatus = "Match";
                                 }
-                                getDistancePenalty((avgParcelDistance+ avgStreetDistance)/2);
+                                //PAYTON:PenaltyCode
+                                if (this.Version >= 4.4)
+                                {
+                                    getDistancePenalty((avgParcelDistance + avgStreetDistance) / 2);
+                                }
                             }
                         }
                         else
@@ -918,9 +929,13 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 else //if we reach here matchscore is 100 so return match
                 {
                     //PAYTON:PENALTYCODE
-                    if (this.WebServiceGeocodeQueryResults[0].PCity != this.WebServiceGeocodeQueryResults[0].MCity && CityUtils.isValidAlias(this.WebServiceGeocodeQueryResults[0].PCity, this.WebServiceGeocodeQueryResults[0].MCity, this.WebServiceGeocodeQueryResults[0].PState))
+                    //PAYTON:PenaltyCode
+                    if (this.Version >= 4.4)
                     {
-                        this.PenaltyCodeResult.city = 1;
+                        if (this.WebServiceGeocodeQueryResults[0].PCity != this.WebServiceGeocodeQueryResults[0].MCity && CityUtils.isValidAlias(this.WebServiceGeocodeQueryResults[0].PCity, this.WebServiceGeocodeQueryResults[0].MCity, this.WebServiceGeocodeQueryResults[0].PState))
+                        {
+                            this.PenaltyCodeResult.city = "1";
+                        }
                     }
                     this.MicroMatchStatus = "Match";
                 }                
@@ -929,15 +944,13 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             {
                 this.MicroMatchStatus = "Non-Match";
             }
-
-            //scoreResult.Add(penalty.AddressComponent.ToString(), penalty.PenaltyValue.ToString());
-
-            //this.PenaltyCodeResult.getPenalty(scoreResult);
-            getPenaltyCodeInputType();
-            
-            this.PenaltyCodeResult.assignZipPenalty(this.IZip, this.WebServiceGeocodeQueryResults[0].FZip);            
-            this.PenaltyCode = this.PenaltyCodeResult.getPenaltyString();
-
+            //PAYTON:PenaltyCode
+            if (this.Version >= 4.4)
+            {
+                getPenaltyCodeInputType();
+                this.PenaltyCodeResult.assignZipPenalty(this.IZip, this.WebServiceGeocodeQueryResults[0].FZip);
+                this.PenaltyCode = this.PenaltyCodeResult.getPenaltyString();
+            }
             return ret;
         }
 
@@ -1038,24 +1051,24 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         {
             if (this.WebServiceGeocodeQueryResults[0].PPostOfficeBoxNumber != "" || this.WebServiceGeocodeQueryResults[0].PPostOfficeBoxType != "")
             {
-                this.PenaltyCodeResult.inputType = 1;
-            }
+                this.PenaltyCodeResult.inputType = "1";
+            }            
             else if (this.WebServiceGeocodeQueryResults[0].PNumber == "" && this.WebServiceGeocodeQueryResults[0].PNumberFractional == "" && this.WebServiceGeocodeQueryResults[0].PName == "")
             {
                 if (this.WebServiceGeocodeQueryResults[0].PCity == "")
                 {
                     if (this.WebServiceGeocodeQueryResults[0].PZip == "")
                     {
-                        this.PenaltyCodeResult.inputType = 5;
+                        this.PenaltyCodeResult.inputType = "5";
                     }
                     else
                     {
-                        this.PenaltyCodeResult.inputType = 4;
+                        this.PenaltyCodeResult.inputType = "4";
                     }
                 }
                 else
                 {
-                    this.PenaltyCodeResult.inputType = 3;
+                    this.PenaltyCodeResult.inputType = "3";
                 }
             }
             
@@ -1064,31 +1077,31 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         {
             if (avgDistance <= .00094697 && avgDistance > 0) //5ft or less
             {
-                this.PenaltyCodeResult.distance = 0;
+                this.PenaltyCodeResult.distance = "-";
             }
             else if (avgDistance <= 0.00473485 && avgDistance > .00094697) //+5ft-25ft
             {
-                this.PenaltyCodeResult.distance = 1;
+                this.PenaltyCodeResult.distance = "1";
             }
             else if (avgDistance <= 0.0094697 && avgDistance > 0.00473485) //+25ft-50ft
             {
-                this.PenaltyCodeResult.distance = 2;
+                this.PenaltyCodeResult.distance = "2";
             }
             else if (avgDistance <= 0.0189394 && avgDistance > 0.0094697) //+50ft-100ft
             {
-                this.PenaltyCodeResult.distance = 3;
+                this.PenaltyCodeResult.distance = "3";
             }
             else if (avgDistance <= 0.0473485 && avgDistance > 0.0189394) //+100ft-250ft
             {
-                this.PenaltyCodeResult.distance = 4;
+                this.PenaltyCodeResult.distance = "4";
             }
             else if (avgDistance <= 0.094697 && avgDistance > 0.0473485) //+250ft-500ft
             {
-                this.PenaltyCodeResult.distance = 5;
+                this.PenaltyCodeResult.distance = "5";
             }
             else if (avgDistance > 0.094697)  //+500ft
             {
-                this.PenaltyCodeResult.distance = 6;
+                this.PenaltyCodeResult.distance = "6";
             }
         }
     }
