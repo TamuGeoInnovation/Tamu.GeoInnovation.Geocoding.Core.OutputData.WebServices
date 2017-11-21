@@ -930,13 +930,14 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 {
                     //PAYTON:PENALTYCODE
                     //PAYTON:PenaltyCode
-                    if (this.Version >= 4.4)
-                    {
-                        if (this.WebServiceGeocodeQueryResults[0].PCity != this.WebServiceGeocodeQueryResults[0].MCity && CityUtils.isValidAlias(this.WebServiceGeocodeQueryResults[0].PCity, this.WebServiceGeocodeQueryResults[0].MCity, this.WebServiceGeocodeQueryResults[0].PState))
-                        {
-                            this.PenaltyCodeResult.city = "1";
-                        }
-                    }
+                    //This is going to be done in singlethreadedfeaturehierarchygeocoder - this allows it to be done once instead of here and in GeocodeResultSet for interactive
+                    //if (this.Version >= 4.4)
+                    //{
+                    //    if (this.WebServiceGeocodeQueryResults[0].PCity != this.WebServiceGeocodeQueryResults[0].MCity && CityUtils.isValidAlias(this.WebServiceGeocodeQueryResults[0].PCity, this.WebServiceGeocodeQueryResults[0].MCity, this.WebServiceGeocodeQueryResults[0].PState))
+                    //    {
+                    //        this.PenaltyCodeResult.city = "1";
+                    //    }
+                    //}
                     this.MicroMatchStatus = "Match";
                 }                
             }
@@ -945,12 +946,14 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 this.MicroMatchStatus = "Non-Match";
             }
             //PAYTON:PenaltyCode
-            if (this.Version >= 4.4)
-            {
-                getPenaltyCodeInputType();
-                this.PenaltyCodeResult.assignZipPenalty(this.IZip, this.WebServiceGeocodeQueryResults[0].FZip);
-                this.PenaltyCode = this.PenaltyCodeResult.getPenaltyString();
-            }
+            //This will be done in singlethreadedfeaturehierarchy - prevents from needing to be done here and in interactive GeocodeResultSet
+            //if (this.Version >= 4.4)
+            //{
+            //this.PenaltyCodeResult.inputType = this.PenaltyCodeResult.getPenaltyCodeInputType(this.INumber,this.INumberFractional,this.IName,this.ICity,this.IZip);               
+            //this.PenaltyCodeResult.assignZipPenalty(this.IZip, this.WebServiceGeocodeQueryResults[0].FZip);
+            //this.PenaltyCode = this.PenaltyCodeResult.getPenaltyString();
+            //}
+            //getPenaltyCodeStreetType();
             return ret;
         }
 
@@ -1047,32 +1050,32 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             return censusMatches;
         }
 
-        public void getPenaltyCodeInputType()
-        {
-            if (this.WebServiceGeocodeQueryResults[0].PPostOfficeBoxNumber != "" || this.WebServiceGeocodeQueryResults[0].PPostOfficeBoxType != "")
-            {
-                this.PenaltyCodeResult.inputType = "1";
-            }            
-            else if (this.WebServiceGeocodeQueryResults[0].PNumber == "" && this.WebServiceGeocodeQueryResults[0].PNumberFractional == "" && this.WebServiceGeocodeQueryResults[0].PName == "")
-            {
-                if (this.WebServiceGeocodeQueryResults[0].PCity == "")
-                {
-                    if (this.WebServiceGeocodeQueryResults[0].PZip == "")
-                    {
-                        this.PenaltyCodeResult.inputType = "5";
-                    }
-                    else
-                    {
-                        this.PenaltyCodeResult.inputType = "4";
-                    }
-                }
-                else
-                {
-                    this.PenaltyCodeResult.inputType = "3";
-                }
-            }
+        //public void getPenaltyCodeInputType()
+        //{
+        //    if (this.WebServiceGeocodeQueryResults[0].PPostOfficeBoxNumber != "" || this.WebServiceGeocodeQueryResults[0].PPostOfficeBoxType != "")
+        //    {
+        //        this.PenaltyCodeResult.inputType = "1";
+        //    }            
+        //    else if (this.WebServiceGeocodeQueryResults[0].PNumber == "" && this.WebServiceGeocodeQueryResults[0].PNumberFractional == "" && this.WebServiceGeocodeQueryResults[0].PName == "")
+        //    {
+        //        if (this.WebServiceGeocodeQueryResults[0].PCity == "")
+        //        {
+        //            if (this.WebServiceGeocodeQueryResults[0].PZip == "")
+        //            {
+        //                this.PenaltyCodeResult.inputType = "5";
+        //            }
+        //            else
+        //            {
+        //                this.PenaltyCodeResult.inputType = "4";
+        //            }
+        //        }
+        //        else
+        //        {
+        //            this.PenaltyCodeResult.inputType = "3";
+        //        }
+        //    }
             
-        }
+        //}
         public void getDistancePenalty(double avgDistance)
         {
             if (avgDistance <= .00094697 && avgDistance > 0) //5ft or less
