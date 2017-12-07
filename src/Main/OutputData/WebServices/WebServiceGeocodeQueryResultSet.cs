@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Device.Location;
 using System.Xml.Serialization;
 using TAMU.GeoInnovation.PointIntersectors.Census.OutputData.CensusRecords;
 using USC.GISResearchLab.Census.Core.Configurations.ServerConfigurations;
@@ -901,11 +902,11 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                                 //If the average distance is less than 1/5 of a mile - assume it's a good match
                                 //Adding a count check as well to account for all navteq references to return a non-valid match but all the same coords
                                 //if count is > 5 it's safe to assume that multiple references are reporting the same location for the address
-                                if (avgParcelDistance < .05 && parcelMatches > 1 && getCensusMatchStatus())
+                                if (avgParcelDistance < 10 && parcelMatches > 1 && getCensusMatchStatus())
                                 {
                                     this.MicroMatchStatus = "Match";
                                 }                                
-                                if (parcelMatches == 0 && streetMatches > 1 && avgStreetDistance < .05 && getCensusMatchStatus())
+                                if (parcelMatches == 0 && streetMatches > 1 && avgStreetDistance < 10 && getCensusMatchStatus())
                                 {
                                     this.MicroMatchStatus = "Match";
                                 }
@@ -1005,9 +1006,14 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                     double dX = pts[0].X - pts[i + 1].X;
                     double dY = pts[0].Y - pts[i + 1].Y;
                     double multi = dX * dX + dY * dY;
-                    distance = distance + Math.Round(Math.Sqrt(multi), 3);
+                    GeoCoordinate point1 = new GeoCoordinate(pts[0].Y, pts[0].X);
+                    GeoCoordinate point2 = new GeoCoordinate(pts[i + 1].Y, pts[i + 1].X);
+                    //distance = distance + Math.Round(Math.Sqrt(multi), 3);
+                    //distance in meters
+                    //distance = (Math.Round(Math.Sqrt(multi), 8)) * 10000;                    
+                    distance = point1.GetDistanceTo(point2);
                 }
-                distanceAvg = ((distance) / (num_points-1)) * 100;
+                distanceAvg = ((distance) / (num_points-1));
             }
             else
             {
@@ -1078,33 +1084,29 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         //}
         public void getDistancePenalty(double avgDistance)
         {
-            if (avgDistance <= .00094697 && avgDistance > 0) //5ft or less
+            if (avgDistance <= 10 && avgDistance > 0) //10m or less
             {
                 this.PenaltyCodeResult.distance = "-";
             }
-            else if (avgDistance <= 0.00473485 && avgDistance > .00094697) //+5ft-25ft
+            else if (avgDistance <= 100 && avgDistance > 10) //+10m-100m
             {
                 this.PenaltyCodeResult.distance = "1";
             }
-            else if (avgDistance <= 0.0094697 && avgDistance > 0.00473485) //+25ft-50ft
+            else if (avgDistance <= 500 && avgDistance > 100) //+100m-500m
             {
                 this.PenaltyCodeResult.distance = "2";
             }
-            else if (avgDistance <= 0.0189394 && avgDistance > 0.0094697) //+50ft-100ft
+            else if (avgDistance <= 1000 && avgDistance > 500) //+500m-1000m
             {
                 this.PenaltyCodeResult.distance = "3";
             }
-            else if (avgDistance <= 0.0473485 && avgDistance > 0.0189394) //+100ft-250ft
+            else if (avgDistance <= 5000 && avgDistance > 1000) //+1km-5km
             {
                 this.PenaltyCodeResult.distance = "4";
             }
-            else if (avgDistance <= 0.094697 && avgDistance > 0.0473485) //+250ft-500ft
+            else if (avgDistance > 5000)  //+5km
             {
                 this.PenaltyCodeResult.distance = "5";
-            }
-            else if (avgDistance > 0.094697)  //+500ft
-            {
-                this.PenaltyCodeResult.distance = "6";
             }
         }
     }
