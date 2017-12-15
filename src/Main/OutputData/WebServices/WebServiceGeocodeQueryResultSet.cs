@@ -27,6 +27,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public PenaltyCodeResult PenaltyCodeResult { get; set; }
         public string PenaltyCode { get; set; }
 
+        public string PenaltyCodeSummary { get; set; }
+
         public int parcelMatches = 0;
         public int streetMatches = 0;
         public QueryStatusCodes QueryStatusCodes { get; set; }
@@ -180,6 +182,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 {
                     ret.Columns.Add("PenaltyCodeResult");
                     ret.Columns.Add("PenaltyCode");
+                    ret.Columns.Add("PenaltyCodeSummary");
                 }                              
                 ret.Columns.Add("Version");
                 ret.Columns.Add("InterpolationType");
@@ -392,6 +395,14 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                             else if (this.PenaltyCodeResult != null)
                             {
                                 dataRow["PenaltyCodeResult"] = this.PenaltyCodeResult;
+                            }
+                            if (webServiceGeocodeQueryResult.PenaltyCodeSummary != null)
+                            {
+                                dataRow["PenaltyCodeSummary"] = webServiceGeocodeQueryResult.PenaltyCodeSummary;
+                            }
+                            else if (this.PenaltyCodeSummary != null)
+                            {
+                                dataRow["PenaltyCodeSummary"] = this.PenaltyCodeSummary;
                             }
                         }
                         dataRow["Version"] = webServiceGeocodeQueryResult.Version;
@@ -1086,7 +1097,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         {
             if (avgDistance <= 10 && avgDistance > 0) //10m or less
             {
-                this.PenaltyCodeResult.distance = "-";
+                this.PenaltyCodeResult.distance = "M";
             }
             else if (avgDistance <= 100 && avgDistance > 10) //+10m-100m
             {
@@ -1107,6 +1118,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             else if (avgDistance > 5000)  //+5km
             {
                 this.PenaltyCodeResult.distance = "5";
+            }
+            else
+            {
+                this.PenaltyCodeResult.distance = "M";
             }
         }
     }

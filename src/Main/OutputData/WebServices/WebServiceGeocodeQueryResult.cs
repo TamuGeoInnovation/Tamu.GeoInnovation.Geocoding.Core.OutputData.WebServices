@@ -57,6 +57,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public string MicroMatchStatus { get; set; }
         public PenaltyCodeResult PenaltyCodeResult { get; set; }
         public string PenaltyCode { get; set; }
+        public string PenaltyCodeSummary { get; set; }
         public InterpolationType InterpolationType { get; set; }
         public InterpolationSubType InterpolationSubType { get; set; }
 
