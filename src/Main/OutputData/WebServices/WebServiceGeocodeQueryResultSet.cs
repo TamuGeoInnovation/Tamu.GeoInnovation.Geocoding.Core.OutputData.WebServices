@@ -897,7 +897,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                         if (this.WebServiceGeocodeQueryResults[0].FCity != null && this.WebServiceGeocodeQueryResults[0].FZip != null)
                         {
                             //PAYTON:MICROMATCHSTATUS If score is less than 98 don't assume it's a match without performing distance/census match test
-                            if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip && this.WebServiceGeocodeQueryResults[0].MatchScore > 97)
+                            if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip && this.WebServiceGeocodeQueryResults[0].MatchScore > 95)
                             {
                                 this.MicroMatchStatus = "Match";                               
                             }
@@ -924,7 +924,16 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                                 //PAYTON:PenaltyCode
                                 if (this.Version >= 4.4)
                                 {
-                                    getDistancePenalty((avgParcelDistance + avgStreetDistance) / 2);
+
+                                    if (avgParcelDistance > 0 || avgStreetDistance > 0)
+                                    {
+                                        getDistancePenalty((avgParcelDistance + avgStreetDistance) / 2);
+                                    }
+                                    else
+                                    {
+                                        this.PenaltyCodeResult.distance = "M";
+                                        this.PenaltyCodeResult.distanceSummary = "M";
+                                    }
                                 }
                             }
                         }
@@ -1098,30 +1107,37 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             if (avgDistance <= 10 && avgDistance > 0) //10m or less
             {
                 this.PenaltyCodeResult.distance = "M";
+                this.PenaltyCodeResult.distanceSummary = "M";
             }
             else if (avgDistance <= 100 && avgDistance > 10) //+10m-100m
             {
                 this.PenaltyCodeResult.distance = "1";
+                this.PenaltyCodeResult.distanceSummary = "M";
             }
             else if (avgDistance <= 500 && avgDistance > 100) //+100m-500m
             {
                 this.PenaltyCodeResult.distance = "2";
+                this.PenaltyCodeResult.distanceSummary = "R";
             }
             else if (avgDistance <= 1000 && avgDistance > 500) //+500m-1000m
             {
                 this.PenaltyCodeResult.distance = "3";
+                this.PenaltyCodeResult.distanceSummary = "R";
             }
             else if (avgDistance <= 5000 && avgDistance > 1000) //+1km-5km
             {
                 this.PenaltyCodeResult.distance = "4";
+                this.PenaltyCodeResult.distanceSummary = "R";
             }
             else if (avgDistance > 5000)  //+5km
             {
                 this.PenaltyCodeResult.distance = "5";
+                this.PenaltyCodeResult.distanceSummary = "R";
             }
             else
             {
                 this.PenaltyCodeResult.distance = "M";
+                this.PenaltyCodeResult.distanceSummary = "M";
             }
         }
     }

@@ -629,6 +629,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append(MicroMatchStatus).Append(separator); //15
             //PAYTON:PENALTYCODE
             sb.Append(PenaltyCode).Append(separator); //16
+            sb.Append(PenaltyCodeSummary).Append(separator); //17
 
 
             return sb.ToString();
@@ -729,7 +730,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             //PAYTON:MicroMatchStatus
             sb.Append("MicroMatchStatus").Append(separator); //15
             //PAYTON:PENALTYCODE
-            sb.Append("PenaltyCode").Append(separator); //15
+            sb.Append("PenaltyCode").Append(separator); //16
+            sb.Append("PenaltyCodeSummary").Append(separator); //17
 
             return sb.ToString();
         }
@@ -1358,6 +1360,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append(MicroMatchStatus).Append(separator); //28
             //PAYTON:PENALTYCODE
             sb.Append(PenaltyCode).Append(separator); //29
+            sb.Append(PenaltyCodeSummary).Append(separator); //30
 
             return sb.ToString();
         }
@@ -1619,6 +1622,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append("MicroMatchStatus"); //50           
             //PAYTON:PENALTYCODE
             sb.Append("PenaltyCode"); //51
+            sb.Append("PenaltyCodeSummary"); //52
             return sb.ToString();
         }
        
@@ -2683,6 +2687,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append(MicroMatchStatus).Append(separator); //28
             //PAYTON:PENALTYCODE
             sb.Append(PenaltyCode).Append(separator); //29
+            sb.Append(PenaltyCodeSummary).Append(separator); //30
             return sb.ToString();
         }
 
@@ -3354,7 +3359,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             //PAYTON:MicroMatchStatus
             sb.Append("MicroMatchStatus"); //37
             //PAYTON:PENALTYCODE
-            sb.Append("PenaltyCode");
+            sb.Append("PenaltyCode"); //38
+            sb.Append("PenaltyCodeSummary"); //39
             return sb.ToString();
         }
 
