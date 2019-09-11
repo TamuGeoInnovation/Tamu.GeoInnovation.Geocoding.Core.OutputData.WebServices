@@ -12,6 +12,7 @@ using USC.GISResearchLab.Core.WebServices.ResultCodes;
 using USC.GISResearchLab.Geocoding.Core.Metadata.FeatureMatchingResults;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.LastLines;
 using Tamu.GeoInnovation.Geocoding.Core.Algorithms.PenaltyScoring;
+using USC.GISResearchLab.Geocoding.Core.Configurations;
 
 namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
 {
@@ -961,6 +962,157 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                     //}
                     this.MicroMatchStatus = "Match";
                 }                
+            }
+            else //no geocodes so return non-match
+            {
+                this.MicroMatchStatus = "Non-Match";
+            }
+            //PAYTON:PenaltyCode
+            //This will be done in singlethreadedfeaturehierarchy - prevents from needing to be done here and in interactive GeocodeResultSet
+            //if (this.Version >= 4.4)
+            //{
+            //this.PenaltyCodeResult.inputType = this.PenaltyCodeResult.getPenaltyCodeInputType(this.INumber,this.INumberFractional,this.IName,this.ICity,this.IZip);               
+            //this.PenaltyCodeResult.assignZipPenalty(this.IZip, this.WebServiceGeocodeQueryResults[0].FZip);
+            //this.PenaltyCode = this.PenaltyCodeResult.getPenaltyString();
+            //}
+            //getPenaltyCodeStreetType();
+            return ret;
+        }
+
+        public bool GetMicroMatchStatus(bool ShouldUseAliasTable)
+        {
+            bool ret = false;
+            // Coordinate code should not be used here as a street segment should be a viable match as well as parcel, point etc
+            //if (this.WebServiceGeocodeQueryResults[0].NAACCRGISCoordinateQualityCode == "00" && this.WebServiceGeocodeQueryResults[0].MatchScore > 90)
+
+            if (this.WebServiceGeocodeQueryResults.Count > 0) //if no geocodes - return non-match
+            {
+                if (this.WebServiceGeocodeQueryResults[0].MatchScore < 100)
+                {
+                    if (this.WebServiceGeocodeQueryResults[0].MatchScore > 88)
+                    {
+                        if (this.WebServiceGeocodeQueryResults[0].FCity != null && this.WebServiceGeocodeQueryResults[0].FZip != null)
+                        {
+                            //PAYTON:MICROMATCHSTATUS If score is less than 98 don't assume it's a match without performing distance/census match test
+                            //BUG:X7-88 We need to account for city alias here as well    
+                            if (ShouldUseAliasTable)
+                            {
+                                if ((this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() || CityUtils.isValidAlias(this.ICity.ToUpper(), this.WebServiceGeocodeQueryResults[0].FCity.ToUpper(), this.WebServiceGeocodeQueryResults[0].FState)) && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip && this.WebServiceGeocodeQueryResults[0].MatchScore > 95)
+                                {
+                                    this.MicroMatchStatus = "Match";
+                                }
+                                else if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() || CityUtils.isValidAlias(this.ICity.ToUpper(), this.WebServiceGeocodeQueryResults[0].FCity.ToUpper(), this.WebServiceGeocodeQueryResults[0].FState))
+                                {
+                                    this.MicroMatchStatus = "Review";
+                                    parcelMatches = 0;
+                                    streetMatches = 0;
+                                    double avgParcelDistance = getAverageDistance("parcel");
+                                    double avgStreetDistance = getAverageDistance("street");
+                                    //If the average distance is less than 1/5 of a mile - assume it's a good match
+                                    //Adding a count check as well to account for all navteq references to return a non-valid match but all the same coords
+                                    //if count is > 5 it's safe to assume that multiple references are reporting the same location for the address
+                                    if (avgParcelDistance < 10 && parcelMatches > 1 && getCensusMatchStatus())
+                                    {
+                                        this.MicroMatchStatus = "Match";
+                                    }
+                                    if (parcelMatches == 0 && streetMatches > 1 && avgStreetDistance < 10 && getCensusMatchStatus())
+                                    {
+                                        this.MicroMatchStatus = "Match";
+                                    }
+                                    //PAYTON:PenaltyCode
+                                    if (this.Version >= 4.4)
+                                    {
+
+                                        if (avgParcelDistance > 0 || avgStreetDistance > 0)
+                                        {
+                                            getDistancePenalty((avgParcelDistance + avgStreetDistance) / 2);
+                                        }
+                                        else
+                                        {
+                                            this.PenaltyCodeResult.distance = "M";
+                                            this.PenaltyCodeResult.distanceSummary = "M";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    this.MicroMatchStatus = "Review";
+                                    this.PenaltyCodeResult.citySummary = "R";
+                                }
+                            }
+                            else
+                            {
+                                if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip && this.WebServiceGeocodeQueryResults[0].MatchScore > 95)
+                                {
+                                    this.MicroMatchStatus = "Match";
+                                }
+                                else if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper())
+                                {
+                                    this.MicroMatchStatus = "Review";
+                                    parcelMatches = 0;
+                                    streetMatches = 0;
+                                    double avgParcelDistance = getAverageDistance("parcel");
+                                    double avgStreetDistance = getAverageDistance("street");
+                                    //If the average distance is less than 1/5 of a mile - assume it's a good match
+                                    //Adding a count check as well to account for all navteq references to return a non-valid match but all the same coords
+                                    //if count is > 5 it's safe to assume that multiple references are reporting the same location for the address
+                                    if (avgParcelDistance < 10 && parcelMatches > 1 && getCensusMatchStatus())
+                                    {
+                                        this.MicroMatchStatus = "Match";
+                                    }
+                                    if (parcelMatches == 0 && streetMatches > 1 && avgStreetDistance < 10 && getCensusMatchStatus())
+                                    {
+                                        this.MicroMatchStatus = "Match";
+                                    }
+                                    //PAYTON:PenaltyCode
+                                    if (this.Version >= 4.4)
+                                    {
+
+                                        if (avgParcelDistance > 0 || avgStreetDistance > 0)
+                                        {
+                                            getDistancePenalty((avgParcelDistance + avgStreetDistance) / 2);
+                                        }
+                                        else
+                                        {
+                                            this.PenaltyCodeResult.distance = "M";
+                                            this.PenaltyCodeResult.distanceSummary = "M";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    this.MicroMatchStatus = "Review";
+                                    this.PenaltyCodeResult.citySummary = "R";
+                                }
+                            }
+                            //Here we need to check against other results
+                            //if city is correct but zip is not, check other results
+
+                        }
+                        else
+                        {
+                            this.MicroMatchStatus = "Review";
+                        }
+                    }
+                    else //match score is less than 88 so return non match
+                    {
+                        this.MicroMatchStatus = "Non-Match";
+                    }
+                }
+                else //if we reach here matchscore is 100 so return match
+                {
+                    //PAYTON:PENALTYCODE
+                    //PAYTON:PenaltyCode
+                    //This is going to be done in singlethreadedfeaturehierarchygeocoder - this allows it to be done once instead of here and in GeocodeResultSet for interactive
+                    //if (this.Version >= 4.4)
+                    //{
+                    //    if (this.WebServiceGeocodeQueryResults[0].PCity != this.WebServiceGeocodeQueryResults[0].MCity && CityUtils.isValidAlias(this.WebServiceGeocodeQueryResults[0].PCity, this.WebServiceGeocodeQueryResults[0].MCity, this.WebServiceGeocodeQueryResults[0].PState))
+                    //    {
+                    //        this.PenaltyCodeResult.city = "1";
+                    //    }
+                    //}
+                    this.MicroMatchStatus = "Match";
+                }
             }
             else //no geocodes so return non-match
             {
