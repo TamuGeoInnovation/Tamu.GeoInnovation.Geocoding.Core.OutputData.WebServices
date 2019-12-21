@@ -222,7 +222,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 ret.Columns.Add("Census1990MetDiv");
                 ret.Columns.Add("Census1990MSAFips");
                 ret.Columns.Add("Census1990PlaceFips");
-
+                if (this.Version >= 4.4)
+                {
+                    ret.Columns.Add("GeoLocationID1990");
+                }
                 ret.Columns.Add("Census2000Year");
                 ret.Columns.Add("Census2000Block");
                 ret.Columns.Add("Census2000BlockGroup");
@@ -235,7 +238,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 ret.Columns.Add("Census2000MetDiv");
                 ret.Columns.Add("Census2000MSAFips");
                 ret.Columns.Add("Census2000PlaceFips");
-
+                if (this.Version >= 4.4)
+                {
+                    ret.Columns.Add("GeoLocationID2000");
+                }
                 ret.Columns.Add("Census2010Year");
                 ret.Columns.Add("Census2010Block");
                 ret.Columns.Add("Census2010BlockGroup");
@@ -248,8 +254,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 ret.Columns.Add("Census2010MetDiv");
                 ret.Columns.Add("Census2010MSAFips");
                 ret.Columns.Add("Census2010PlaceFips");
-
-
+                if (this.Version >= 4.4)
+                {
+                    ret.Columns.Add("GeoLocationID2010");
+                }
                 ret.Columns.Add("ParsedName");
                 ret.Columns.Add("ParsedNumber");
                 ret.Columns.Add("ParsedNumberFractional");
@@ -450,6 +458,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                                         dataRow["Census1990MetDiv"] = censusRecord.CensusMetDivFips;
                                         dataRow["Census1990MSAFips"] = censusRecord.CensusMsaFips;
                                         dataRow["Census1990PlaceFips"] = censusRecord.CensusPlaceFips;
+                                        if(webServiceGeocodeQueryResult.Version>4.4)
+                                        {
+                                            dataRow["GeoLocationID1990"] = censusRecord.GeoLocationID;
+                                        }
                                         //dataRow["CensusException"] = webServiceGeocodeQueryResult.;
                                         break;
                                     case CensusYear.TwoThousand:
@@ -465,6 +477,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                                         dataRow["Census2000MetDiv"] = censusRecord.CensusMetDivFips;
                                         dataRow["Census2000MSAFips"] = censusRecord.CensusMsaFips;
                                         dataRow["Census2000PlaceFips"] = censusRecord.CensusPlaceFips;
+                                        if (webServiceGeocodeQueryResult.Version > 4.4)
+                                        {
+                                            dataRow["GeoLocationID2000"] = censusRecord.GeoLocationID;
+                                        }
                                         //dataRow["CensusException"] = webServiceGeocodeQueryResult.;
                                         break;
                                     case CensusYear.TwoThousandTen:
@@ -480,6 +496,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                                         dataRow["Census2010MetDiv"] = censusRecord.CensusMetDivFips;
                                         dataRow["Census2010MSAFips"] = censusRecord.CensusMsaFips;
                                         dataRow["Census2010PlaceFips"] = censusRecord.CensusPlaceFips;
+                                        if (webServiceGeocodeQueryResult.Version > 4.4)
+                                        {
+                                            dataRow["GeoLocationID2010"] = censusRecord.GeoLocationID;
+                                        }
                                         //dataRow["CensusException"] = webServiceGeocodeQueryResult.;
                                         break;
                                     default:
@@ -504,6 +524,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                                     dataRow["Census1990MetDiv"] = webServiceGeocodeQueryResult.CensusMetDivFips;
                                     dataRow["Census1990MSAFips"] = webServiceGeocodeQueryResult.CensusMsaFips;
                                     dataRow["Census1990PlaceFips"] = webServiceGeocodeQueryResult.CensusPlaceFips;
+                                    if (webServiceGeocodeQueryResult.Version > 4.4)
+                                    {
+                                        dataRow["GeoLocationID1990"] = webServiceGeocodeQueryResult.GeoLocationID;
+                                    }
                                     //dataRow["CensusException"] = webServiceGeocodeQueryResult.;
                                     break;
                                 case CensusYear.TwoThousand:
@@ -519,6 +543,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                                     dataRow["Census2000MetDiv"] = webServiceGeocodeQueryResult.CensusMetDivFips;
                                     dataRow["Census2000MSAFips"] = webServiceGeocodeQueryResult.CensusMsaFips;
                                     dataRow["Census2000PlaceFips"] = webServiceGeocodeQueryResult.CensusPlaceFips;
+                                    if (webServiceGeocodeQueryResult.Version > 4.4)
+                                    {
+                                        dataRow["GeoLocationID2000"] = webServiceGeocodeQueryResult.GeoLocationID;
+                                    }
                                     //dataRow["CensusException"] = webServiceGeocodeQueryResult.;
                                     break;
                                 case CensusYear.TwoThousandTen:
@@ -534,6 +562,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                                     dataRow["Census2010MetDiv"] = webServiceGeocodeQueryResult.CensusMetDivFips;
                                     dataRow["Census2010MSAFips"] = webServiceGeocodeQueryResult.CensusMsaFips;
                                     dataRow["Census2010PlaceFips"] = webServiceGeocodeQueryResult.CensusPlaceFips;
+                                    if (webServiceGeocodeQueryResult.Version > 4.4)
+                                    {
+                                        dataRow["GeoLocationID2000"] = webServiceGeocodeQueryResult.GeoLocationID;
+                                    }
                                     //dataRow["CensusException"] = webServiceGeocodeQueryResult.;
                                     break;
                                 default:
