@@ -30,6 +30,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
 
         public string PenaltyCodeSummary { get; set; }
 
+        public string GeoLocationID { get; set; }
+
         public int parcelMatches = 0;
         public int streetMatches = 0;
         public QueryStatusCodes QueryStatusCodes { get; set; }
