@@ -487,9 +487,17 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             {
                 ret = AsStringVerbose_V04_03(separator, version);
             }
-            else if (Version >= 4.04 && Version != 4.3)
+            else if (Version >= 4.04 && Version < 4.05)
             {
                 ret = AsStringVerbose_V04_04(separator, version);
+            }
+            else if (Version >= 4.05 && Version < 4.06)
+            {
+                ret = AsStringVerbose_V04_05(separator, version);
+            }
+            else if (Version >= 4.06)
+            {
+                ret = AsStringVerbose_V04_06(separator, version);
             }
             else
             {
@@ -518,9 +526,17 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             {
                 ret = AsHeaderStringVerbose_V04_03(separator, version);
             }
-            else if (Version >= 4.04 && Version != 4.3)
+            else if (Version >= 4.04 && Version < 4.05)
             {
                 ret = AsHeaderStringVerbose_V04_04(separator, version);
+            }
+            else if (Version >= 4.05 && Version < 4.06)
+            {
+                ret = AsHeaderStringVerbose_V04_05(separator, version);
+            }
+            else if (Version >= 4.06)
+            {
+                ret = AsHeaderStringVerbose_V04_06(separator, version);
             }
             else
             {
@@ -664,7 +680,12 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             return sb.ToString();
         }
 
-        public static string AsHeaderString_V04_01(string separator, double version)
+        public string AsString_V04_06(string separator, double version)
+        {
+            return AsString_V04_05(separator, version);
+        }
+
+            public static string AsHeaderString_V04_01(string separator, double version)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("TransactionId").Append(separator); //0
@@ -791,6 +812,11 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append("PenaltyCodeSummary").Append(separator); //17
 
             return sb.ToString();
+        }
+
+        public static string AsHeaderString_V04_06(string separator, double version)
+        {
+            return AsHeaderString_V04_05(separator, version);
         }
 
         public string AsStringWithCensus_V04_01(string separator, double version)
@@ -1653,7 +1679,12 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             return sb.ToString();
         }
 
-        public static string AsHeaderStringWithCensus_V04_01(string separator, double version)
+        public string AsStringWithCensus_V04_06(string separator, double version)
+        {
+            return AsStringWithCensus_V04_05(separator, version);
+        }
+
+            public static string AsHeaderStringWithCensus_V04_01(string separator, double version)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("TransactionId").Append(separator); //0
@@ -2540,6 +2571,11 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append("PenaltyCode").Append(separator); //51
             sb.Append("PenaltyCodeSummary"); //52
             return sb.ToString();
+        }
+
+        public static string AsHeaderStringWithCensus_V04_06(string separator, double version, List<CensusYear> QuerycensusYears)
+        {
+            return AsHeaderStringWithCensus_V04_05(separator, version);
         }
 
         // removed:     censusYear
@@ -3618,6 +3654,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append(PenaltyCodeSummary).Append(separator); //30
             return sb.ToString();
         }
+
         public string AsStringVerbose_V04_05(string separator, double version)
         {
             StringBuilder sb = new StringBuilder();
@@ -3893,7 +3930,12 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             return sb.ToString();
         }
 
-        public static string AsHeaderStringVerbose_V04_01(string separator, double version)
+        public string AsStringVerbose_V04_06(string separator, double version)
+        {
+            return AsStringVerbose_V04_05(separator, version);
+        }
+
+            public static string AsHeaderStringVerbose_V04_01(string separator, double version)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("TransactionId").Append(separator); //0
@@ -4738,6 +4780,11 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append("PenaltyCode"); //38
             sb.Append("PenaltyCodeSummary"); //39
             return sb.ToString();
+        }
+
+        public static string AsHeaderStringVerbose_V04_06(string separator, double version)
+        {
+            return AsHeaderStringVerbose_V04_05(separator, version);
         }
 
 
