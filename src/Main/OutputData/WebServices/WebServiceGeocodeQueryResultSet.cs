@@ -13,6 +13,9 @@ using USC.GISResearchLab.Geocoding.Core.Metadata.FeatureMatchingResults;
 using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.LastLines;
 using Tamu.GeoInnovation.Geocoding.Core.Algorithms.PenaltyScoring;
 using USC.GISResearchLab.Geocoding.Core.Configurations;
+using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureInterpolationMethods;
+using USC.GISResearchLab.Geocoding.Core.Algorithms.TieHandlingMethods;
+using USC.GISResearchLab.Common.Core.Geocoders.FeatureMatching;
 
 namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
 {
@@ -36,18 +39,18 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public int streetMatches = 0;
         public QueryStatusCodes QueryStatusCodes { get; set; }
 
-        public List<WebServiceGeocodeQueryResult> WebServiceGeocodeQueryResults {get;set;}
+        public List<WebServiceGeocodeQueryResult> WebServiceGeocodeQueryResults { get; set; }
 
         public string QueryStatusCodeName
         {
             get { return QueryResultCodeManager.GetStatusCodeName(QueryStatusCodes); }
-            set { ; }
+            set {; }
         }
 
         public int QueryStatusCodeValue
         {
             get { return QueryResultCodeManager.GetStatusCodeValue(QueryStatusCodes); }
-            set { ; }
+            set {; }
         }
 
         public string TimeTaken { get; set; }
@@ -93,6 +96,15 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public FeatureMatchingResultType FeatureMatchingResultType { get; set; }
         public int FeatureMatchingResultCount { get; set; }
 
+        public InterpolationType InterpolationType { get; set; }
+        public InterpolationSubType InterpolationSubType { get; set; }
+        public TieHandlingStrategyType TieHandlingStrategyType { get; set; }
+        public string FeatureMatchingResultTypeTieBreakingNotes { get; set; }
+        public FeatureMatchingSelectionMethod FeatureMatchingSelectionMethod { get; set; }
+        public string FeatureMatchingSelectionMethodNotes { get; set; }
+        public string FeatureMatchingResultTypeNotes { get; set; }
+
+
         #endregion
 
 
@@ -112,10 +124,10 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             {
                 MicroMatchStatus = "";
             }
-            
+
             ErrorMessage = "";
 
-            
+
 
             INonParsedStreetAddress = "";
             INumber = "";
@@ -146,7 +158,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             IZipPlus4 = "";
             IZipPlus5 = "";
 
-           
+
             Version = version;
 
         }
@@ -186,7 +198,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                     ret.Columns.Add("PenaltyCodeResult");
                     ret.Columns.Add("PenaltyCode");
                     ret.Columns.Add("PenaltyCodeSummary");
-                }                              
+                }
                 ret.Columns.Add("Version");
                 ret.Columns.Add("InterpolationType");
                 ret.Columns.Add("InterpolationSubType");
@@ -460,7 +472,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                                         dataRow["Census1990MetDiv"] = censusRecord.CensusMetDivFips;
                                         dataRow["Census1990MSAFips"] = censusRecord.CensusMsaFips;
                                         dataRow["Census1990PlaceFips"] = censusRecord.CensusPlaceFips;
-                                        if(webServiceGeocodeQueryResult.Version>4.4)
+                                        if (webServiceGeocodeQueryResult.Version > 4.4)
                                         {
                                             dataRow["GeoLocationID1990"] = censusRecord.GeoLocationID;
                                         }
@@ -690,9 +702,9 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public string AsString(string separator, double version)
         {
             string ret = "";
-           
-                ret = AsStringVerbose(separator, version);
-            
+
+            ret = AsStringVerbose(separator, version);
+
             return ret;
         }
 
@@ -704,9 +716,9 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public string AsHeaderString(string separator, double version)
         {
             string ret = "";
-            
-                ret = AsHeaderStringVerbose(separator, version);
-            
+
+            ret = AsHeaderStringVerbose(separator, version);
+
             return ret;
         }
 
@@ -732,7 +744,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             {
                 ret = AsStringVerbose_V04_01(separator, version);
             }
-            
+
             return ret;
         }
 
@@ -763,7 +775,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append(QueryStatusCodeValue).Append(separator); //2
             sb.Append(TimeTaken).Append(separator); //3
 
-            
+
             return sb.ToString();
         }
 
@@ -894,8 +906,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append("TimeTaken").Append(separator); //3
 
             return sb.ToString();
-        }      
-        
+        }
+
         public override string ToString()
         {
             return ToString(false);
@@ -922,7 +934,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             bool ret = false;
             // Coordinate code should not be used here as a street segment should be a viable match as well as parcel, point etc
             //if (this.WebServiceGeocodeQueryResults[0].NAACCRGISCoordinateQualityCode == "00" && this.WebServiceGeocodeQueryResults[0].MatchScore > 90)
-            
+
             if (this.WebServiceGeocodeQueryResults.Count > 0) //if no geocodes - return non-match
             {
                 if (this.WebServiceGeocodeQueryResults[0].MatchScore < 100)
@@ -934,7 +946,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                             //PAYTON:MICROMATCHSTATUS If score is less than 98 don't assume it's a match without performing distance/census match test
                             if (this.ICity.ToUpper() == this.WebServiceGeocodeQueryResults[0].FCity.ToUpper() && this.IZip == this.WebServiceGeocodeQueryResults[0].FZip && this.WebServiceGeocodeQueryResults[0].MatchScore > 95)
                             {
-                                this.MicroMatchStatus = "Match";                               
+                                this.MicroMatchStatus = "Match";
                             }
                             //Here we need to check against other results
                             //if city is correct but zip is not, check other results
@@ -951,7 +963,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                                 if (avgParcelDistance < 10 && parcelMatches > 1 && getCensusMatchStatus())
                                 {
                                     this.MicroMatchStatus = "Match";
-                                }                                
+                                }
                                 if (parcelMatches == 0 && streetMatches > 1 && avgStreetDistance < 10 && getCensusMatchStatus())
                                 {
                                     this.MicroMatchStatus = "Match";
@@ -995,7 +1007,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                     //    }
                     //}
                     this.MicroMatchStatus = "Match";
-                }                
+                }
             }
             else //no geocodes so return non-match
             {
@@ -1168,7 +1180,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         {
             //int num_points = WebServiceGeocodeQueryResults.Count;
             int num_points = 0;
-            
+
             //List<Point> normalPoints = new List<Point>();
             List<PointF> points = new List<PointF>();
             foreach (var resultPoint in WebServiceGeocodeQueryResults)
@@ -1204,7 +1216,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             double distanceAvg = 0;
             if (points.Count > 1)
             {
-                for (int i = 0; i < num_points-1; i++)
+                for (int i = 0; i < num_points - 1; i++)
                 {
                     //area +=
                     //    (pts[i + 1].X - pts[i].X) *
@@ -1219,12 +1231,12 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                     //distance = (Math.Round(Math.Sqrt(multi), 8)) * 10000;                    
                     distance = point1.GetDistanceTo(point2);
                 }
-                distanceAvg = ((distance) / (num_points-1));
+                distanceAvg = ((distance) / (num_points - 1));
             }
             else
             {
                 distanceAvg = 0;
-            }                       
+            }
             return distanceAvg;
         }
 
@@ -1286,7 +1298,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         //            this.PenaltyCodeResult.inputType = "3";
         //        }
         //    }
-            
+
         //}
         public void getDistancePenalty(double avgDistance)
         {
