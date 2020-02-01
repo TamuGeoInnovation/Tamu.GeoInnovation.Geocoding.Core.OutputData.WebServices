@@ -2478,6 +2478,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append("NAACCRCensusTractCertaintyCode").Append(separator); //15
             sb.Append("NAACCRCensusTractCertaintyName").Append(separator); //16
 
+            // todo: we are always outputting all years, so this is not needed
+            // todo: in 4.06 remove this logic and just call the base of verbose output, since the columns should be the same up to the census values
             //Payton: CensusYears needed to be broken apart here - previously was returning headers for all three by default
             foreach (var year in QuerycensusYears)
             {
@@ -3680,254 +3682,189 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append(TieHandlingStrategyType).Append(separator); //19
             sb.Append(FeatureMatchingSelectionMethod).Append(separator); //20
             sb.Append(FeatureMatchingSelectionMethodNotes).Append(separator); //21
+
+            // TODO: This should move to the top in 4.06
             sb.Append(TimeTaken).Append(separator); //22
 
-            sb.Append(MNumber).Append(separator); //37
-            sb.Append(MNumberFractional).Append(separator); //38
-            sb.Append(MPreDirectional).Append(separator); //39
-            sb.Append(MPreQualifier).Append(separator); //40
-            sb.Append(MPreType).Append(separator); //41
-            sb.Append(MPreArticle).Append(separator); //42
-            sb.Append(MName).Append(separator); //43
-            sb.Append(MPostArticle).Append(separator); //44
-            sb.Append(MPostQualifier).Append(separator); //45
-            sb.Append(MSuffix).Append(separator); //46
-            sb.Append(MPostDirectional).Append(separator); //47
-            sb.Append(MSuiteType).Append(separator); //48
-            sb.Append(MSuiteNumber).Append(separator); //49
-            sb.Append(MPostOfficeBoxType).Append(separator); //50
-            sb.Append(MPostOfficeBoxNumber).Append(separator); //51
-            sb.Append(MCity).Append(separator); //52
-            sb.Append(MConsolidatedCity).Append(separator); //53
-            sb.Append(MMinorCivilDivision).Append(separator); //54
-            sb.Append(MCountySubRegion).Append(separator); //55
-            sb.Append(MCounty).Append(separator); //56
-            sb.Append(MState).Append(separator); //57
-            sb.Append(MZip).Append(separator); //58
-            sb.Append(MZipPlus1).Append(separator); //59
-            sb.Append(MZipPlus2).Append(separator); //60
-            sb.Append(MZipPlus3).Append(separator); //61
-            sb.Append(MZipPlus4).Append(separator); //62
-            sb.Append(MZipPlus5).Append(separator); //63
 
-            sb.Append(PNumber).Append(separator); //64
-            sb.Append(PNumberFractional).Append(separator); //65
-            sb.Append(PPreDirectional).Append(separator); //66
-            sb.Append(PPreQualifier).Append(separator); //67
-            sb.Append(PPreType).Append(separator); //68
-            sb.Append(PPreArticle).Append(separator); //69
-            sb.Append(PName).Append(separator); //70
-            sb.Append(PPostArticle).Append(separator); //71
-            sb.Append(PPostQualifier).Append(separator); //72
-            sb.Append(PSuffix).Append(separator); //73
-            sb.Append(PPostDirectional).Append(separator); //74
-            sb.Append(PSuiteType).Append(separator); //75
-            sb.Append(PSuiteNumber).Append(separator); //76
-            sb.Append(PPostOfficeBoxType).Append(separator); //77
-            sb.Append(PPostOfficeBoxNumber).Append(separator); //78
-            sb.Append(PCity).Append(separator); //79
-            sb.Append(PConsolidatedCity).Append(separator); //80
-            sb.Append(PMinorCivilDivision).Append(separator); //81
-            sb.Append(PCountySubRegion).Append(separator); //82
-            sb.Append(PCounty).Append(separator); //83
-            sb.Append(PState).Append(separator); //84
-            sb.Append(PZip).Append(separator); //85
-            sb.Append(PZipPlus1).Append(separator); //86
-            sb.Append(PZipPlus2).Append(separator); //87
-            sb.Append(PZipPlus3).Append(separator); //88
-            sb.Append(PZipPlus4).Append(separator); //89
-            sb.Append(PZipPlus5).Append(separator); //90
+            // todo: these should go after the census values in 4.06
+            sb.Append(MNumber).Append(separator); //23
+            sb.Append(MNumberFractional).Append(separator); //24
+            sb.Append(MPreDirectional).Append(separator); //25
+            sb.Append(MPreQualifier).Append(separator); //26
+            sb.Append(MPreType).Append(separator); //27
+            sb.Append(MPreArticle).Append(separator); //28
+            sb.Append(MName).Append(separator); //29
+            sb.Append(MPostArticle).Append(separator); //30
+            sb.Append(MPostQualifier).Append(separator); //31
+            sb.Append(MSuffix).Append(separator); //32
+            sb.Append(MPostDirectional).Append(separator); //33
+            sb.Append(MSuiteType).Append(separator); //34
+            sb.Append(MSuiteNumber).Append(separator); //35
+            sb.Append(MPostOfficeBoxType).Append(separator); //36
+            sb.Append(MPostOfficeBoxNumber).Append(separator); //37
+            sb.Append(MCity).Append(separator); //38
+            sb.Append(MConsolidatedCity).Append(separator); //39
+            sb.Append(MMinorCivilDivision).Append(separator); //40
+            sb.Append(MCountySubRegion).Append(separator); //41
+            sb.Append(MCounty).Append(separator); //42
+            sb.Append(MState).Append(separator); //43
+            sb.Append(MZip).Append(separator); //44
+            sb.Append(MZipPlus1).Append(separator); //45
+            sb.Append(MZipPlus2).Append(separator); //46
+            sb.Append(MZipPlus3).Append(separator); //47
+            sb.Append(MZipPlus4).Append(separator); //48
+            sb.Append(MZipPlus5).Append(separator); //49
 
-            sb.Append(FNumber).Append(separator); //91
-            sb.Append(FNumberFractional).Append(separator); //92
-            sb.Append(FPreDirectional).Append(separator); //93
-            sb.Append(FPreQualifier).Append(separator); //94
-            sb.Append(FPreType).Append(separator); //95
-            sb.Append(FPreArticle).Append(separator); //96
-            sb.Append(FName).Append(separator); //97
-            sb.Append(FPostArticle).Append(separator); //98
-            sb.Append(FPostQualifier).Append(separator); //99
-            sb.Append(FSuffix).Append(separator); //100
-            sb.Append(FPostDirectional).Append(separator); //101
-            sb.Append(FSuiteType).Append(separator); //102
-            sb.Append(FSuiteNumber).Append(separator); //103
-            sb.Append(FPostOfficeBoxType).Append(separator); //104
-            sb.Append(FPostOfficeBoxNumber).Append(separator); //105
-            sb.Append(FCity).Append(separator); //106
-            sb.Append(FConsolidatedCity).Append(separator); //107
-            sb.Append(FMinorCivilDivision).Append(separator); //108
-            sb.Append(FCountySubRegion).Append(separator); //109
-            sb.Append(FCounty).Append(separator); //110
-            sb.Append(FState).Append(separator); //111
-            sb.Append(FZip).Append(separator); //112
-            sb.Append(FZipPlus1).Append(separator); //113
-            sb.Append(FZipPlus2).Append(separator); //114
-            sb.Append(FZipPlus3).Append(separator); //115
-            sb.Append(FZipPlus4).Append(separator); //116
-            sb.Append(FZipPlus5).Append(separator); //117
-            sb.Append(FArea).Append(separator); //118
-            sb.Append(FAreaType).Append(separator); //119
+            sb.Append(PNumber).Append(separator); //50
+            sb.Append(PNumberFractional).Append(separator); //51
+            sb.Append(PPreDirectional).Append(separator); //52
+            sb.Append(PPreQualifier).Append(separator); //53
+            sb.Append(PPreType).Append(separator); //54
+            sb.Append(PPreArticle).Append(separator); //55
+            sb.Append(PName).Append(separator); //56
+            sb.Append(PPostArticle).Append(separator); //57
+            sb.Append(PPostQualifier).Append(separator); //58
+            sb.Append(PSuffix).Append(separator); //59
+            sb.Append(PPostDirectional).Append(separator); //60
+            sb.Append(PSuiteType).Append(separator); //61
+            sb.Append(PSuiteNumber).Append(separator); //62
+            sb.Append(PPostOfficeBoxType).Append(separator); //63
+            sb.Append(PPostOfficeBoxNumber).Append(separator); //64
+            sb.Append(PCity).Append(separator); //65
+            sb.Append(PConsolidatedCity).Append(separator); //66
+            sb.Append(PMinorCivilDivision).Append(separator); //67
+            sb.Append(PCountySubRegion).Append(separator); //68
+            sb.Append(PCounty).Append(separator); //69
+            sb.Append(PState).Append(separator); //70
+            sb.Append(PZip).Append(separator); //71
+            sb.Append(PZipPlus1).Append(separator); //72
+            sb.Append(PZipPlus2).Append(separator); //73
+            sb.Append(PZipPlus3).Append(separator); //74
+            sb.Append(PZipPlus4).Append(separator); //75
+            sb.Append(PZipPlus5).Append(separator); //76
 
-            sb.Append(FGeometrySRID).Append(separator); //120
-            if (String.Compare(separator, ",", true) == 0)
-            {
-                sb.Append(FGeometry.Replace(separator, ";")).Append(separator); //121
-            }
-            else
-            {
-                sb.Append(FGeometry).Append(separator); //121
-            }
+            sb.Append(FNumber).Append(separator); //77
+            sb.Append(FNumberFractional).Append(separator); //78
+            sb.Append(FPreDirectional).Append(separator); //79
+            sb.Append(FPreQualifier).Append(separator); //80
+            sb.Append(FPreType).Append(separator); //81
+            sb.Append(FPreArticle).Append(separator); //82
+            sb.Append(FName).Append(separator); //83
+            sb.Append(FPostArticle).Append(separator); //84
+            sb.Append(FPostQualifier).Append(separator); //85
+            sb.Append(FSuffix).Append(separator); //86
+            sb.Append(FPostDirectional).Append(separator); //87
+            sb.Append(FSuiteType).Append(separator); //88
+            sb.Append(FSuiteNumber).Append(separator); //89
+            sb.Append(FPostOfficeBoxType).Append(separator); //90
+            sb.Append(FPostOfficeBoxNumber).Append(separator); //91
+            sb.Append(FCity).Append(separator); //92
+            sb.Append(FConsolidatedCity).Append(separator); //93
+            sb.Append(FMinorCivilDivision).Append(separator); //94
+            sb.Append(FCountySubRegion).Append(separator); //95
+            sb.Append(FCounty).Append(separator); //96
+            sb.Append(FState).Append(separator); //97
+            sb.Append(FZip).Append(separator); //98
+            sb.Append(FZipPlus1).Append(separator); //99
+            sb.Append(FZipPlus2).Append(separator); //100
+            sb.Append(FZipPlus3).Append(separator); //101
+            sb.Append(FZipPlus4).Append(separator); //102
+            sb.Append(FZipPlus5).Append(separator); //103
+            sb.Append(FArea).Append(separator); //104
+            sb.Append(FAreaType).Append(separator); //105
+            sb.Append(FGeometrySRID).Append(separator); //106
+            sb.Append(FGeometry).Append(separator); //107
+            sb.Append(FSource).Append(separator); //108
+            sb.Append(FVintage).Append(separator); //109
+            sb.Append(FPrimaryIdField).Append(separator); //110
+            sb.Append(FPrimaryIdValue).Append(separator); //111
+            sb.Append(FSecondaryIdField).Append(separator); //112
+            sb.Append(FSecondaryIdValue).Append(separator); //113
 
-            sb.Append(FSource).Append(separator); //122
-            sb.Append(FVintage).Append(separator); //123
-            sb.Append(FPrimaryIdField).Append(separator); //124
-            sb.Append(FPrimaryIdValue).Append(separator); //125
-            sb.Append(FSecondaryIdField).Append(separator); //126
-            sb.Append(FSecondaryIdValue).Append(separator); //127
+            // TODO: This should move to the top in 4.06
+            sb.Append(NAACCRCensusTractCertaintyCode).Append(separator); //114
+            sb.Append(NAACCRCensusTractCertaintyName).Append(separator); //115
 
-            sb.Append(NAACCRCensusTractCertaintyCode).Append(separator); //24
-            sb.Append(NAACCRCensusTractCertaintyName).Append(separator); //25
+            CensusOutputRecord censusOutputRecord1990 = new CensusOutputRecord();
+            CensusOutputRecord censusOutputRecord2000 = new CensusOutputRecord();
+            CensusOutputRecord censusOutputRecord2010 = new CensusOutputRecord();
 
             if (CensusRecords != null)
             {
-                //1990 - 17 - 27
-                //2000 - 28 - 38
-                //2010 - 39 - 49
-                if (CensusRecords.Count == 3) // if there are three records, add them in a row
+                foreach (CensusOutputRecord censusOutputRecord in CensusRecords)
                 {
-                    foreach (CensusOutputRecord censusOutputRecord in CensusRecords)
+                    if (CensusRecords != null)
                     {
-
-                        sb.Append(censusOutputRecord.CensusBlock).Append(separator); //17
-                        sb.Append(censusOutputRecord.CensusBlockGroup).Append(separator); //18
-                        sb.Append(censusOutputRecord.CensusTract).Append(separator); //19
-                        sb.Append(censusOutputRecord.CensusCountyFips).Append(separator); //20
-                        sb.Append(censusOutputRecord.CensusCbsaFips).Append(separator); //21
-                        sb.Append(censusOutputRecord.CensusCbsaMicro).Append(separator); //22
-                        sb.Append(censusOutputRecord.CensusMcdFips).Append(separator); //23
-                        sb.Append(censusOutputRecord.CensusMetDivFips).Append(separator); //24
-                        sb.Append(censusOutputRecord.CensusMsaFips).Append(separator); //25
-                        sb.Append(censusOutputRecord.CensusPlaceFips).Append(separator); //26
-                        sb.Append(censusOutputRecord.CensusStateFips).Append(separator); //27
-                        sb.Append(censusOutputRecord.GeoLocationID).Append(separator); //27
-
+                        if (censusOutputRecord.CensusYear == CensusYear.NineteenNinety)
+                        {
+                            censusOutputRecord1990 = censusOutputRecord;
+                        }
+                        else if (censusOutputRecord.CensusYear == CensusYear.TwoThousand)
+                        {
+                            censusOutputRecord2000 = censusOutputRecord;
+                        }
+                        else if (censusOutputRecord.CensusYear == CensusYear.TwoThousandTen)
+                        {
+                            censusOutputRecord2010 = censusOutputRecord;
+                        }
                     }
-                }
-                else // otherwise fill in the appropriate ones and blank out the rest
-                {
-                    StringBuilder sb1990 = new StringBuilder();
-                    StringBuilder sb2000 = new StringBuilder();
-                    StringBuilder sb2010 = new StringBuilder();
-
-                    for (int i = 0; i < CensusRecords.Count; i++)
-                    {
-                        CensusOutputRecord censusOutputRecord = CensusRecords[i];
-                        if (censusOutputRecord.CensusYear == Census.Core.Configurations.ServerConfigurations.CensusYear.NineteenNinety)
-                        {
-                            sb1990.Append(censusOutputRecord.CensusBlock).Append(separator); //17
-                            sb1990.Append(censusOutputRecord.CensusBlockGroup).Append(separator); //18
-                            sb1990.Append(censusOutputRecord.CensusTract).Append(separator); //19
-                            sb1990.Append(censusOutputRecord.CensusCountyFips).Append(separator); //20
-                            sb1990.Append(censusOutputRecord.CensusCbsaFips).Append(separator); //21
-                            sb1990.Append(censusOutputRecord.CensusCbsaMicro).Append(separator); //22
-                            sb1990.Append(censusOutputRecord.CensusMcdFips).Append(separator); //23
-                            sb1990.Append(censusOutputRecord.CensusMetDivFips).Append(separator); //24
-                            sb1990.Append(censusOutputRecord.CensusMsaFips).Append(separator); //25
-                            sb1990.Append(censusOutputRecord.CensusPlaceFips).Append(separator); //26
-                            sb1990.Append(censusOutputRecord.CensusStateFips).Append(separator); //27
-                            sb1990.Append(censusOutputRecord.GeoLocationID).Append(separator); //27
-                            sb.Append(sb1990);
-                        }
-                        else if (censusOutputRecord.CensusYear == Census.Core.Configurations.ServerConfigurations.CensusYear.TwoThousand)
-                        {
-                            sb2000.Append(censusOutputRecord.CensusBlock).Append(separator); //17
-                            sb2000.Append(censusOutputRecord.CensusBlockGroup).Append(separator); //18
-                            sb2000.Append(censusOutputRecord.CensusTract).Append(separator); //19
-                            sb2000.Append(censusOutputRecord.CensusCountyFips).Append(separator); //20
-                            sb2000.Append(censusOutputRecord.CensusCbsaFips).Append(separator); //21
-                            sb2000.Append(censusOutputRecord.CensusCbsaMicro).Append(separator); //22
-                            sb2000.Append(censusOutputRecord.CensusMcdFips).Append(separator); //23
-                            sb2000.Append(censusOutputRecord.CensusMetDivFips).Append(separator); //24
-                            sb2000.Append(censusOutputRecord.CensusMsaFips).Append(separator); //25
-                            sb2000.Append(censusOutputRecord.CensusPlaceFips).Append(separator); //26
-                            sb2000.Append(censusOutputRecord.CensusStateFips).Append(separator); //27
-                            sb2000.Append(censusOutputRecord.GeoLocationID).Append(separator); //27
-                            sb.Append(sb2000);
-                        }
-                        else if (censusOutputRecord.CensusYear == Census.Core.Configurations.ServerConfigurations.CensusYear.TwoThousandTen)
-                        {
-                            sb2010.Append(censusOutputRecord.CensusBlock).Append(separator); //17
-                            sb2010.Append(censusOutputRecord.CensusBlockGroup).Append(separator); //18
-                            sb2010.Append(censusOutputRecord.CensusTract).Append(separator); //19
-                            sb2010.Append(censusOutputRecord.CensusCountyFips).Append(separator); //20
-                            sb2010.Append(censusOutputRecord.CensusCbsaFips).Append(separator); //21
-                            sb2010.Append(censusOutputRecord.CensusCbsaMicro).Append(separator); //22
-                            sb2010.Append(censusOutputRecord.CensusMcdFips).Append(separator); //23
-                            sb2010.Append(censusOutputRecord.CensusMetDivFips).Append(separator); //24
-                            sb2010.Append(censusOutputRecord.CensusMsaFips).Append(separator); //25
-                            sb2010.Append(censusOutputRecord.CensusPlaceFips).Append(separator); //26
-                            sb2010.Append(censusOutputRecord.CensusStateFips).Append(separator); //27
-                            sb2010.Append(censusOutputRecord.GeoLocationID).Append(separator); //27
-                            sb.Append(sb2010);
-                        }
-
-                        //if (sb1990.Length == 0)
-                        //{
-                        //    sb1990.Append("").Append(separator); //17
-                        //    sb1990.Append("").Append(separator); //18
-                        //    sb1990.Append("").Append(separator); //19
-                        //    sb1990.Append("").Append(separator); //20
-                        //    sb1990.Append("").Append(separator); //21
-                        //    sb1990.Append("").Append(separator); //22
-                        //    sb1990.Append("").Append(separator); //23
-                        //    sb1990.Append("").Append(separator); //24
-                        //    sb1990.Append("").Append(separator); //25
-                        //    sb1990.Append("").Append(separator); //26
-                        //    sb1990.Append("").Append(separator); //27
-                        //}
-
-                        //if (sb2000.Length == 0)
-                        //{
-                        //    sb2000.Append("").Append(separator); //17
-                        //    sb2000.Append("").Append(separator); //18
-                        //    sb2000.Append("").Append(separator); //19
-                        //    sb2000.Append("").Append(separator); //20
-                        //    sb2000.Append("").Append(separator); //21
-                        //    sb2000.Append("").Append(separator); //22
-                        //    sb2000.Append("").Append(separator); //23
-                        //    sb2000.Append("").Append(separator); //24
-                        //    sb2000.Append("").Append(separator); //25
-                        //    sb2000.Append("").Append(separator); //26
-                        //    sb2000.Append("").Append(separator); //27
-                        //}
-
-                        //if (sb2010.Length == 0)
-                        //{
-                        //    sb2010.Append("").Append(separator); //17
-                        //    sb2010.Append("").Append(separator); //18
-                        //    sb2010.Append("").Append(separator); //19
-                        //    sb2010.Append("").Append(separator); //20
-                        //    sb2010.Append("").Append(separator); //21
-                        //    sb2010.Append("").Append(separator); //22
-                        //    sb2010.Append("").Append(separator); //23
-                        //    sb2010.Append("").Append(separator); //24
-                        //    sb2010.Append("").Append(separator); //25
-                        //    sb2010.Append("").Append(separator); //26
-                        //    sb2010.Append("").Append(separator); //27
-                        //}
-                    }
-
-                    //sb.Append(sb1990);
-                    //sb.Append(sb2000);
-                    //sb.Append(sb2010);
                 }
             }
-            //PAYTON:MicroMatchStatus for v4.03
-            sb.Append(MicroMatchStatus).Append(separator); //28
-            //PAYTON:PENALTYCODE
-            sb.Append(PenaltyCode).Append(separator); //29
-            sb.Append(PenaltyCodeSummary).Append(separator); //30
+
+            sb.Append(censusOutputRecord1990.CensusBlock).Append(separator); //116
+            sb.Append(censusOutputRecord1990.CensusBlockGroup).Append(separator); //117
+            sb.Append(censusOutputRecord1990.CensusTract).Append(separator); //118
+            sb.Append(censusOutputRecord1990.CensusCountyFips).Append(separator); //119
+            sb.Append(censusOutputRecord1990.CensusCbsaFips).Append(separator); //120
+            sb.Append(censusOutputRecord1990.CensusCbsaMicro).Append(separator); //121
+            sb.Append(censusOutputRecord1990.CensusMcdFips).Append(separator); //122
+            sb.Append(censusOutputRecord1990.CensusMetDivFips).Append(separator); //123
+            sb.Append(censusOutputRecord1990.CensusMsaFips).Append(separator); //124
+            sb.Append(censusOutputRecord1990.CensusPlaceFips).Append(separator); //125
+            sb.Append(censusOutputRecord1990.CensusStateFips).Append(separator); //126
+            // new in 4.05, missing from current documentation, not sure if IMS is using it
+            // todo: make sure this is added in 4.06
+            //sb.Append("GeoLocationID1990").Append(separator); //36
+
+            sb.Append(censusOutputRecord2000.CensusBlock).Append(separator); //127
+            sb.Append(censusOutputRecord2000.CensusBlockGroup).Append(separator); //128
+            sb.Append(censusOutputRecord2000.CensusTract).Append(separator); //129
+            sb.Append(censusOutputRecord2000.CensusCountyFips).Append(separator); //130
+            sb.Append(censusOutputRecord2000.CensusCbsaFips).Append(separator); //131
+            sb.Append(censusOutputRecord2000.CensusCbsaMicro).Append(separator); //132
+            sb.Append(censusOutputRecord2000.CensusMcdFips).Append(separator); //133
+            sb.Append(censusOutputRecord2000.CensusMetDivFips).Append(separator); //134
+            sb.Append(censusOutputRecord2000.CensusMsaFips).Append(separator); //135
+            sb.Append(censusOutputRecord2000.CensusPlaceFips).Append(separator); //136
+            sb.Append(censusOutputRecord2000.CensusStateFips).Append(separator); //137
+            // new in 4.05, missing from current documentation, not sure if IMS is using it
+            // todo: make sure this is added in 4.06
+            //sb.Append(GeoLocationID2000).Append(separator); //36
+
+            sb.Append(censusOutputRecord2010.CensusBlock).Append(separator); //138
+            sb.Append(censusOutputRecord2010.CensusBlockGroup).Append(separator); //139
+            sb.Append(censusOutputRecord2010.CensusTract).Append(separator); //140
+            sb.Append(censusOutputRecord2010.CensusCountyFips).Append(separator); //141
+            sb.Append(censusOutputRecord2010.CensusCbsaFips).Append(separator); //142
+            sb.Append(censusOutputRecord2010.CensusCbsaMicro).Append(separator); //143
+            sb.Append(censusOutputRecord2010.CensusMcdFips).Append(separator); //144
+            sb.Append(censusOutputRecord2010.CensusMetDivFips).Append(separator); //145
+            sb.Append(censusOutputRecord2010.CensusMsaFips).Append(separator); //146
+            sb.Append(censusOutputRecord2010.CensusPlaceFips).Append(separator); //147
+            sb.Append(censusOutputRecord2010.CensusStateFips).Append(separator); //148
+            // new in 4.05, missing from current documentation, not sure if IMS is using it
+            // todo: make sure this is added in 4.06
+            //sb.Append("GeoLocationID2010").Append(separator); //36
+
+
+            sb.Append(MicroMatchStatus); //149
+            sb.Append(PenaltyCode); //150
+
+            // new in 4.05, missing from current documentation, not sure if IMS is using it
+            sb.Append(PenaltyCodeSummary); //151
             return sb.ToString();
+
         }
 
         public string AsStringVerbose_V04_06(string separator, double version)
@@ -4633,152 +4570,160 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append("TieHandlingStrategyType").Append(separator); //19
             sb.Append("FeatureMatchingSelectionMethod").Append(separator); //20
             sb.Append("FeatureMatchingSelectionMethodNotes").Append(separator); //21
+
+            // TODO: This should move to the top in 4.06
             sb.Append("TimeTaken").Append(separator); //22
 
 
+            // todo: these should go after the census values in 4.06
+            sb.Append("MNumber").Append(separator); //23
+            sb.Append("MNumberFractional").Append(separator); //24
+            sb.Append("MPreDirectional").Append(separator); //25
+            sb.Append("MPreQualifier").Append(separator); //26
+            sb.Append("MPreType").Append(separator); //27
+            sb.Append("MPreArticle").Append(separator); //28
+            sb.Append("MName").Append(separator); //29
+            sb.Append("MPostArticle").Append(separator); //30
+            sb.Append("MPostQualifier").Append(separator); //31
+            sb.Append("MSuffix").Append(separator); //32
+            sb.Append("MPostDirectional").Append(separator); //33
+            sb.Append("MSuiteType").Append(separator); //34
+            sb.Append("MSuiteNumber").Append(separator); //35
+            sb.Append("MPostOfficeBoxType").Append(separator); //36
+            sb.Append("MPostOfficeBoxNumber").Append(separator); //37
+            sb.Append("MCity").Append(separator); //38
+            sb.Append("MConsolidatedCity").Append(separator); //39
+            sb.Append("MMinorCivilDivision").Append(separator); //40
+            sb.Append("MCountySubRegion").Append(separator); //41
+            sb.Append("MCounty").Append(separator); //42
+            sb.Append("MState").Append(separator); //43
+            sb.Append("MZip").Append(separator); //44
+            sb.Append("MZipPlus1").Append(separator); //45
+            sb.Append("MZipPlus2").Append(separator); //46
+            sb.Append("MZipPlus3").Append(separator); //47
+            sb.Append("MZipPlus4").Append(separator); //48
+            sb.Append("MZipPlus5").Append(separator); //49
 
+            sb.Append("PNumber").Append(separator); //50
+            sb.Append("PNumberFractional").Append(separator); //51
+            sb.Append("PPreDirectional").Append(separator); //52
+            sb.Append("PPreQualifier").Append(separator); //53
+            sb.Append("PPreType").Append(separator); //54
+            sb.Append("PPreArticle").Append(separator); //55
+            sb.Append("PName").Append(separator); //56
+            sb.Append("PPostArticle").Append(separator); //57
+            sb.Append("PPostQualifier").Append(separator); //58
+            sb.Append("PSuffix").Append(separator); //59
+            sb.Append("PPostDirectional").Append(separator); //60
+            sb.Append("PSuiteType").Append(separator); //61
+            sb.Append("PSuiteNumber").Append(separator); //62
+            sb.Append("PPostOfficeBoxType").Append(separator); //63
+            sb.Append("PPostOfficeBoxNumber").Append(separator); //64
+            sb.Append("PCity").Append(separator); //65
+            sb.Append("PConsolidatedCity").Append(separator); //66
+            sb.Append("PMinorCivilDivision").Append(separator); //67
+            sb.Append("PCountySubRegion").Append(separator); //68
+            sb.Append("PCounty").Append(separator); //69
+            sb.Append("PState").Append(separator); //70
+            sb.Append("PZip").Append(separator); //71
+            sb.Append("PZipPlus1").Append(separator); //72
+            sb.Append("PZipPlus2").Append(separator); //73
+            sb.Append("PZipPlus3").Append(separator); //74
+            sb.Append("PZipPlus4").Append(separator); //75
+            sb.Append("PZipPlus5").Append(separator); //76
 
-            sb.Append("MNumber").Append(separator); //37
-            sb.Append("MNumberFractional").Append(separator); //38
-            sb.Append("MPreDirectional").Append(separator); //39
-            sb.Append("MPreQualifier").Append(separator); //40
-            sb.Append("MPreType").Append(separator); //41
-            sb.Append("MPreArticle").Append(separator); //42
-            sb.Append("MName").Append(separator); //43
-            sb.Append("MPostArticle").Append(separator); //44
-            sb.Append("MPostQualifier").Append(separator); //45
-            sb.Append("MSuffix").Append(separator); //46
-            sb.Append("MPostDirectional").Append(separator); //47
-            sb.Append("MSuiteType").Append(separator); //48
-            sb.Append("MSuiteNumber").Append(separator); //49
-            sb.Append("MPostOfficeBoxType").Append(separator); //50
-            sb.Append("MPostOfficeBoxNumber").Append(separator); //51
-            sb.Append("MCity").Append(separator); //52
-            sb.Append("MConsolidatedCity").Append(separator); //53
-            sb.Append("MMinorCivilDivision").Append(separator); //54
-            sb.Append("MCountySubRegion").Append(separator); //55
-            sb.Append("MCounty").Append(separator); //56
-            sb.Append("MState").Append(separator); //57
-            sb.Append("MZip").Append(separator); //58
-            sb.Append("MZipPlus1").Append(separator); //59
-            sb.Append("MZipPlus2").Append(separator); //60
-            sb.Append("MZipPlus3").Append(separator); //61
-            sb.Append("MZipPlus4").Append(separator); //62
-            sb.Append("MZipPlus5").Append(separator); //63
+            sb.Append("FNumber").Append(separator); //77
+            sb.Append("FNumberFractional").Append(separator); //78
+            sb.Append("FPreDirectional").Append(separator); //79
+            sb.Append("FPreQualifier").Append(separator); //80
+            sb.Append("FPreType").Append(separator); //81
+            sb.Append("FPreArticle").Append(separator); //82
+            sb.Append("FName").Append(separator); //83
+            sb.Append("FPostArticle").Append(separator); //84
+            sb.Append("FPostQualifier").Append(separator); //85
+            sb.Append("FSuffix").Append(separator); //86
+            sb.Append("FPostDirectional").Append(separator); //87
+            sb.Append("FSuiteType").Append(separator); //88
+            sb.Append("FSuiteNumber").Append(separator); //89
+            sb.Append("FPostOfficeBoxType").Append(separator); //90
+            sb.Append("FPostOfficeBoxNumber").Append(separator); //91
+            sb.Append("FCity").Append(separator); //92
+            sb.Append("FConsolidatedCity").Append(separator); //93
+            sb.Append("FMinorCivilDivision").Append(separator); //94
+            sb.Append("FCountySubRegion").Append(separator); //95
+            sb.Append("FCounty").Append(separator); //96
+            sb.Append("FState").Append(separator); //97
+            sb.Append("FZip").Append(separator); //98
+            sb.Append("FZipPlus1").Append(separator); //99
+            sb.Append("FZipPlus2").Append(separator); //100
+            sb.Append("FZipPlus3").Append(separator); //101
+            sb.Append("FZipPlus4").Append(separator); //102
+            sb.Append("FZipPlus5").Append(separator); //103
+            sb.Append("FArea").Append(separator); //104
+            sb.Append("FAreaType").Append(separator); //105
+            sb.Append("FGeometrySRID").Append(separator); //106
+            sb.Append("FGeometry").Append(separator); //107
+            sb.Append("FSource").Append(separator); //108
+            sb.Append("FVintage").Append(separator); //109
+            sb.Append("FPrimaryIdField").Append(separator); //110
+            sb.Append("FPrimaryIdValue").Append(separator); //111
+            sb.Append("FSecondaryIdField").Append(separator); //112
+            sb.Append("FSecondaryIdValue").Append(separator); //113
 
-            sb.Append("PNumber").Append(separator); //64
-            sb.Append("PNumberFractional").Append(separator); //65
-            sb.Append("PPreDirectional").Append(separator); //66
-            sb.Append("PPreQualifier").Append(separator); //67
-            sb.Append("PPreType").Append(separator); //68
-            sb.Append("PPreArticle").Append(separator); //69
-            sb.Append("PName").Append(separator); //70
-            sb.Append("PPostArticle").Append(separator); //71
-            sb.Append("PPostQualifier").Append(separator); //72
-            sb.Append("PSuffix").Append(separator); //73
-            sb.Append("PPostDirectional").Append(separator); //74
-            sb.Append("PSuiteType").Append(separator); //75
-            sb.Append("PSuiteNumber").Append(separator); //76
-            sb.Append("PPostOfficeBoxType").Append(separator); //77
-            sb.Append("PPostOfficeBoxNumber").Append(separator); //78
-            sb.Append("PCity").Append(separator); //79
-            sb.Append("PConsolidatedCity").Append(separator); //80
-            sb.Append("PMinorCivilDivision").Append(separator); //81
-            sb.Append("PCountySubRegion").Append(separator); //82
-            sb.Append("PCounty").Append(separator); //83
-            sb.Append("PState").Append(separator); //84
-            sb.Append("PZip").Append(separator); //85
-            sb.Append("PZipPlus1").Append(separator); //86
-            sb.Append("PZipPlus2").Append(separator); //87
-            sb.Append("PZipPlus3").Append(separator); //88
-            sb.Append("PZipPlus4").Append(separator); //89
-            sb.Append("PZipPlus5").Append(separator); //90
+            // TODO: This should move to the top in 4.06
+            sb.Append("NAACCRCensusTractCertaintyCode").Append(separator); //114
+            sb.Append("NAACCRCensusTractCertaintyName").Append(separator); //115
 
-            sb.Append("FNumber").Append(separator); //91
-            sb.Append("FNumberFractional").Append(separator); //92
-            sb.Append("FPreDirectional").Append(separator); //93
-            sb.Append("FPreQualifier").Append(separator); //94
-            sb.Append("FPreType").Append(separator); //95
-            sb.Append("FPreArticle").Append(separator); //96
-            sb.Append("FName").Append(separator); //97
-            sb.Append("FPostArticle").Append(separator); //98
-            sb.Append("FPostQualifier").Append(separator); //99
-            sb.Append("FSuffix").Append(separator); //100
-            sb.Append("FPostDirectional").Append(separator); //101
-            sb.Append("FSuiteType").Append(separator); //102
-            sb.Append("FSuiteNumber").Append(separator); //103
-            sb.Append("FPostOfficeBoxType").Append(separator); //104
-            sb.Append("FPostOfficeBoxNumber").Append(separator); //105
-            sb.Append("FCity").Append(separator); //106
-            sb.Append("FConsolidatedCity").Append(separator); //107
-            sb.Append("FMinorCivilDivision").Append(separator); //108
-            sb.Append("FCountySubRegion").Append(separator); //109
-            sb.Append("FCounty").Append(separator); //110
-            sb.Append("FState").Append(separator); //111
-            sb.Append("FZip").Append(separator); //112
-            sb.Append("FZipPlus1").Append(separator); //113
-            sb.Append("FZipPlus2").Append(separator); //114
-            sb.Append("FZipPlus3").Append(separator); //115
-            sb.Append("FZipPlus4").Append(separator); //116
-            sb.Append("FZipPlus5").Append(separator); //117
-            sb.Append("FArea").Append(separator); //118
-            sb.Append("FAreaType").Append(separator); //119
-            sb.Append("FGeometrySRID").Append(separator); //120
-            sb.Append("FGeometry").Append(separator); //121
-            sb.Append("FSource").Append(separator); //122
-            sb.Append("FVintage").Append(separator); //123
-            sb.Append("FPrimaryIdField").Append(separator); //124
-            sb.Append("FPrimaryIdValue").Append(separator); //125
-            sb.Append("FSecondaryIdField").Append(separator); //126
-            sb.Append("FSecondaryIdValue").Append(separator); //127
+            sb.Append("Census1990Block").Append(separator); //116
+            sb.Append("Census1990BlockGroup").Append(separator); //117
+            sb.Append("Census1990Tract").Append(separator); //118
+            sb.Append("Census1990CountyFips").Append(separator); //119
+            sb.Append("Census1990CbsaFips").Append(separator); //120
+            sb.Append("Census1990CbsaMicro").Append(separator); //121
+            sb.Append("Census1990McdFips").Append(separator); //122
+            sb.Append("Census1990MetDivFips").Append(separator); //123
+            sb.Append("Census1990MsaFips").Append(separator); //124
+            sb.Append("Census1990PlaceFips").Append(separator); //125
+            sb.Append("Census1990StateFips").Append(separator); //126
+            // new in 4.05, missing from current documentation, not sure if IMS is using it
+            // todo: make sure this is added in 4.06
+            //sb.Append("GeoLocationID1990").Append(separator); //36
 
-            sb.Append("NAACCRCensusTractCertaintyCode").Append(separator); //24
-            sb.Append("NAACCRCensusTractCertaintyName").Append(separator); //25
+            sb.Append("Census2000Block").Append(separator); //127
+            sb.Append("Census2000BlockGroup").Append(separator); //128
+            sb.Append("Census2000Tract").Append(separator); //129
+            sb.Append("Census2000CountyFips").Append(separator); //130
+            sb.Append("Census2000CbsaFips").Append(separator); //131
+            sb.Append("Census2000CbsaMicro").Append(separator); //132
+            sb.Append("Census2000McdFips").Append(separator); //133
+            sb.Append("Census2000MetDivFips").Append(separator); //134
+            sb.Append("Census2000MsaFips").Append(separator); //135
+            sb.Append("Census2000PlaceFips").Append(separator); //136
+            sb.Append("Census2000StateFips").Append(separator); //137
+            // new in 4.05, missing from current documentation, not sure if IMS is using it
+            // todo: make sure this is added in 4.06
+            //sb.Append("GeoLocationID2000").Append(separator); //36
 
-            sb.Append("Census1990Block").Append(separator); //26
-            sb.Append("Census1990BlockGroup").Append(separator); //27
-            sb.Append("Census1990Tract").Append(separator); //28
-            sb.Append("Census1990CountyFips").Append(separator); //29
-            sb.Append("Census1990CbsaFips").Append(separator); //30
-            sb.Append("Census1990CbsaMicro").Append(separator); //31
-            sb.Append("Census1990McdFips").Append(separator); //32
-            sb.Append("Census1990MetDivFips").Append(separator); //33
-            sb.Append("Census1990MsaFips").Append(separator); //34
-            sb.Append("Census1990PlaceFips").Append(separator); //35
-            sb.Append("Census1990StateFips").Append(separator); //36
-            sb.Append("GeoLocationID1990").Append(separator); //36
+            sb.Append("Census2010Block").Append(separator); //138
+            sb.Append("Census2010BlockGroup").Append(separator); //139
+            sb.Append("Census2010Tract").Append(separator); //140
+            sb.Append("Census2010CountyFips").Append(separator); //141
+            sb.Append("Census2010CbsaFips").Append(separator); //142
+            sb.Append("Census2010CbsaMicro").Append(separator); //143
+            sb.Append("Census2010McdFips").Append(separator); //144
+            sb.Append("Census2010MetDivFips").Append(separator); //145
+            sb.Append("Census2010MsaFips").Append(separator); //146
+            sb.Append("Census2010PlaceFips").Append(separator); //147
+            sb.Append("Census2010StateFips").Append(separator); //148
+            // new in 4.05, missing from current documentation, not sure if IMS is using it
+            // todo: make sure this is added in 4.06
+            //sb.Append("GeoLocationID2010").Append(separator); //36
 
-            sb.Append("Census2000Block").Append(separator); //26
-            sb.Append("Census2000BlockGroup").Append(separator); //27
-            sb.Append("Census2000Tract").Append(separator); //28
-            sb.Append("Census2000CountyFips").Append(separator); //29
-            sb.Append("Census2000CbsaFips").Append(separator); //30
-            sb.Append("Census2000CbsaMicro").Append(separator); //31
-            sb.Append("Census2000McdFips").Append(separator); //32
-            sb.Append("Census2000MetDivFips").Append(separator); //33
-            sb.Append("Census2000MsaFips").Append(separator); //34
-            sb.Append("Census2000PlaceFips").Append(separator); //35
-            sb.Append("Census2000StateFips").Append(separator); //36
-            sb.Append("GeoLocationID2000").Append(separator); //36
+            sb.Append("MicroMatchStatus"); //149
+            sb.Append("PenaltyCode"); //150
 
-            sb.Append("Census2010Block").Append(separator); //26
-            sb.Append("Census2010BlockGroup").Append(separator); //27
-            sb.Append("Census2010Tract").Append(separator); //28
-            sb.Append("Census2010CountyFips").Append(separator); //29
-            sb.Append("Census2010CbsaFips").Append(separator); //30
-            sb.Append("Census2010CbsaMicro").Append(separator); //31
-            sb.Append("Census2010McdFips").Append(separator); //32
-            sb.Append("Census2010MetDivFips").Append(separator); //33
-            sb.Append("Census2010MsaFips").Append(separator); //34
-            sb.Append("Census2010PlaceFips").Append(separator); //35
-            sb.Append("Census2010StateFips").Append(separator); //36
-            sb.Append("GeoLocationID2010").Append(separator); //36
-
-            //PAYTON:MicroMatchStatus
-            sb.Append("MicroMatchStatus"); //37
-            //PAYTON:PENALTYCODE
-            sb.Append("PenaltyCode"); //38
-            sb.Append("PenaltyCodeSummary"); //39
+            // new in 4.05, missing from current documentation, not sure if IMS is using it
+            sb.Append("PenaltyCodeSummary"); //151
             return sb.ToString();
         }
 
