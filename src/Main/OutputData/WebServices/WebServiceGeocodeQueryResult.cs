@@ -3858,11 +3858,13 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             //sb.Append("GeoLocationID2010").Append(separator); //36
 
 
-            sb.Append(MicroMatchStatus); //149
-            sb.Append(PenaltyCode); //150
+            sb.Append(MicroMatchStatus).Append(separator); ; //149
+            sb.Append(PenaltyCode).Append(separator); ; //150
+            sb.Append(PenaltyCodeSummary).Append(separator); //151
 
             // new in 4.05, missing from current documentation, not sure if IMS is using it
-            sb.Append(PenaltyCodeSummary); //151
+            // todo: make sure this is added and moved to the top in 4.06
+            sb.Append(GeoLocationID); //151
             return sb.ToString();
 
         }
@@ -4719,11 +4721,13 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             // todo: make sure this is added in 4.06
             //sb.Append("GeoLocationID2010").Append(separator); //36
 
-            sb.Append("MicroMatchStatus"); //149
-            sb.Append("PenaltyCode"); //150
+            sb.Append("MicroMatchStatus").Append(separator); //149
+            sb.Append("PenaltyCode").Append(separator); //150
+            sb.Append("PenaltyCodeSummary").Append(separator); //151
 
-            // new in 4.05, missing from current documentation, not sure if IMS is using it
-            sb.Append("PenaltyCodeSummary"); //151
+            // new in 4.05
+            // todo: make sure this is added and moved to the top in 4.06
+            sb.Append("GeoLocationID"); //152
             return sb.ToString();
         }
 
