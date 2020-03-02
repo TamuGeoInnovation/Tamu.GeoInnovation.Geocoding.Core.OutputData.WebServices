@@ -87,14 +87,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Device" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Runtime.Serialization">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.ServiceModel">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -153,10 +145,6 @@
       <Name>Common.Core.Addresses.Dev</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common.Core.Geo.Geometries\Src\Main\Common.Core.Geo.Geometries.Dev.csproj">
-      <Project>{E8164C90-2753-46F3-937A-653039318563}</Project>
-      <Name>Common.Core.Geo.Geometries.Dev</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Common.Core.Web\Src\Main\Common.Core.Web.Dev.csproj">
       <Project>{DEA75FBD-F1B4-4730-B10D-CBE20538DA37}</Project>
       <Name>Common.Core.Web.Dev</Name>
@@ -171,10 +159,6 @@
       <Project>{58A97F94-A955-473B-9FF7-80892B17B0B5}</Project>
       <Name>Geocoding.Core.Algorithms.FeatureMatching.SelectionMethods.Dev</Name>
       <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Geocoding.Core.Algorithms.FeatureMatchScorers.MatchScoreResults\src\Main\Geocoding.Core.Algorithms.FeatureMatchScorers.MatchScoreResults.Dev.csproj">
-      <Project>{1b0d73cf-1bf7-41eb-8792-e30319222ad7}</Project>
-      <Name>Geocoding.Core.Algorithms.FeatureMatchScorers.MatchScoreResults.Dev</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Geocoding.Core.Algorithms.PenaltyScoring\src\Main\Geocoding.Core.Algorithms.PenaltyScoring.Dev.csproj">
       <Project>{dda124f6-c2d0-4023-8e54-e2f4f7ac3bbf}</Project>
