@@ -54,13 +54,13 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public string QueryStatusCodeName
         {
             get { return QueryResultCodeManager.GetStatusCodeName(QueryStatusCodes); }
-            set { ; }
+            set {; }
         }
 
         public int QueryStatusCodeValue
         {
             get { return QueryResultCodeManager.GetStatusCodeValue(QueryStatusCodes); }
-            set { ; }
+            set {; }
         }
 
         public string ErrorMessage { get; set; }

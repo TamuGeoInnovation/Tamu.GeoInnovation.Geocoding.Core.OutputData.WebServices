@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using System.Device.Location;
-using System.Xml.Serialization;
-using TAMU.GeoInnovation.PointIntersectors.Census.OutputData.CensusRecords;
-using USC.GISResearchLab.Census.Core.Configurations.ServerConfigurations;
 using System.Drawing;
-using USC.GISResearchLab.Core.WebServices.ResultCodes;
-using USC.GISResearchLab.Geocoding.Core.Metadata.FeatureMatchingResults;
-using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.LastLines;
+using System.Text;
+using System.Xml.Serialization;
 using Tamu.GeoInnovation.Geocoding.Core.Algorithms.PenaltyScoring;
+using TAMU.GeoInnovation.PointIntersectors.Census.OutputData.CensusRecords;
+using USC.GISResearchLab.AddressProcessing.Core.Standardizing.StandardizedAddresses.Lines.LastLines;
+using USC.GISResearchLab.Census.Core.Configurations.ServerConfigurations;
+using USC.GISResearchLab.Common.Core.Geocoders.FeatureMatching;
+using USC.GISResearchLab.Core.WebServices.ResultCodes;
 using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureInterpolationMethods;
 using USC.GISResearchLab.Geocoding.Core.Algorithms.TieHandlingMethods;
-using USC.GISResearchLab.Common.Core.Geocoders.FeatureMatching;
+using USC.GISResearchLab.Geocoding.Core.Metadata.FeatureMatchingResults;
 
 namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
 {

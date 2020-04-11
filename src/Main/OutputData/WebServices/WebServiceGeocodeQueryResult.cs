@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
+using Tamu.GeoInnovation.Geocoding.Core.Algorithms.PenaltyScoring;
 using TAMU.GeoInnovation.PointIntersectors.Census.OutputData.CensusRecords;
 using USC.GISResearchLab.AddressProcessing.Core.AddressNormalization.Implementations;
 using USC.GISResearchLab.Census.Core.Configurations.ServerConfigurations;
 using USC.GISResearchLab.Common.Core.Geocoders.FeatureMatching;
 using USC.GISResearchLab.Core.WebServices.ResultCodes;
 using USC.GISResearchLab.Geocoding.Core.Algorithms.FeatureInterpolationMethods;
-using Tamu.GeoInnovation.Geocoding.Core.Algorithms.PenaltyScoring;
 using USC.GISResearchLab.Geocoding.Core.Algorithms.TieHandlingMethods;
 using USC.GISResearchLab.Geocoding.Core.Metadata;
 using USC.GISResearchLab.Geocoding.Core.Metadata.FeatureMatchingResults;
@@ -27,7 +27,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public double Longitude { get; set; }
         public double Version { get; set; }
         public string Quality { get; set; }
-        
+
         public string MatchedLocationType { get; set; }
         public string MatchType { get; set; }
 
@@ -42,7 +42,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public QueryStatusCodes QueryStatusCodes { get; set; }
 
         public GeocodeQualityType GeocodeQualityType { get; set; }
-        
+
         public string NAACCRGISCoordinateQualityCode { get; set; }
         public string NAACCRGISCoordinateQualityName { get; set; }
         public NAACCRGISCoordinateQualityType NAACCRGISCoordinateQualityType { get; set; }
@@ -50,7 +50,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public string NAACCRCensusTractCertaintyCode { get; set; }
         public string NAACCRCensusTractCertaintyName { get; set; }
         public NAACCRCensusTractCertaintyType NAACCRCensusTractCertaintyType { get; set; }
-        
+
         public FeatureMatchingGeographyType FeatureMatchingGeographyType { get; set; }
         public FeatureMatchingResultType FeatureMatchingResultType { get; set; }
         public double MatchScore { get; set; }
@@ -70,13 +70,13 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public string QueryStatusCodeName
         {
             get { return QueryResultCodeManager.GetStatusCodeName(QueryStatusCodes); }
-            set { ; }
+            set {; }
         }
 
         public int QueryStatusCodeValue
         {
             get { return QueryResultCodeManager.GetStatusCodeValue(QueryStatusCodes); }
-            set { ; }
+            set {; }
         }
 
         [XmlIgnore]
@@ -685,7 +685,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             return AsString_V04_05(separator, version);
         }
 
-            public static string AsHeaderString_V04_01(string separator, double version)
+        public static string AsHeaderString_V04_01(string separator, double version)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("TransactionId").Append(separator); //0
@@ -1009,7 +1009,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
 
             sb.Append(NAACCRCensusTractCertaintyCode).Append(separator); //15
             sb.Append(NAACCRCensusTractCertaintyName).Append(separator); //16
-            
+
 
             if (CensusRecords != null)
             {
@@ -1489,7 +1489,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                     //{
                     //    sb.Append(sb2010);
                     //}
-                    
+
                 }
             }
             //PAYTON:MicroMatchStatus - placing at end to mitigate any parsing issues for v4.03
@@ -1684,7 +1684,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             return AsStringWithCensus_V04_05(separator, version);
         }
 
-            public static string AsHeaderStringWithCensus_V04_01(string separator, double version)
+        public static string AsHeaderStringWithCensus_V04_01(string separator, double version)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("TransactionId").Append(separator); //0
@@ -2199,8 +2199,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                 }
             }
 
-                //PAYTON:MicroMatchStatus -- this is for v4.03
-                sb.Append("MicroMatchStatus"); //50
+            //PAYTON:MicroMatchStatus -- this is for v4.03
+            sb.Append("MicroMatchStatus"); //50
             return sb.ToString();
         }
 
@@ -2367,49 +2367,49 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append("NAACCRCensusTractCertaintyName").Append(separator); //16
 
             //Payton: CensusYears needed to be broken apart here - previously was returning headers for all three by default
-            foreach(var year in QuerycensusYears)
+            foreach (var year in QuerycensusYears)
             {
                 switch (year.ToString())
                 {
-                case "NineteenNinety":
-                    sb.Append("Census1990Block").Append(separator); //17
-                    sb.Append("Census1990BlockGroup").Append(separator); //18
-                    sb.Append("Census1990Tract").Append(separator); //19
-                    sb.Append("Census1990CountyFips").Append(separator); //20
-                    sb.Append("Census1990CbsaFips").Append(separator); //21
-                    sb.Append("Census1990CbsaMicro").Append(separator); //22
-                    sb.Append("Census1990McdFips").Append(separator); //23
-                    sb.Append("Census1990MetDivFips").Append(separator); //24
-                    sb.Append("Census1990MsaFips").Append(separator); //25
-                    sb.Append("Census1990PlaceFips").Append(separator); //26
-                    sb.Append("Census1990StateFips").Append(separator); //27
-                break;
-                case "TwoThousand":
-                    sb.Append("Census2000Block").Append(separator); //28
-                    sb.Append("Census2000BlockGroup").Append(separator); //29
-                    sb.Append("Census2000Tract").Append(separator); //30
-                    sb.Append("Census2000CountyFips").Append(separator); //31
-                    sb.Append("Census2000CbsaFips").Append(separator); //32
-                    sb.Append("Census2000CbsaMicro").Append(separator); //33
-                    sb.Append("Census2000McdFips").Append(separator); //34
-                    sb.Append("Census2000MetDivFips").Append(separator); //35
-                    sb.Append("Census2000MsaFips").Append(separator); //36
-                    sb.Append("Census2000PlaceFips").Append(separator); //37
-                    sb.Append("Census2000StateFips").Append(separator); //38
-                break;
-                case "TwoThousandTen":
-                    sb.Append("Census2010Block").Append(separator); //39
-                    sb.Append("Census2010BlockGroup").Append(separator); //40
-                    sb.Append("Census2010Tract").Append(separator); //41
-                    sb.Append("Census2010CountyFips").Append(separator); //42
-                    sb.Append("Census2010CbsaFips").Append(separator); //43
-                    sb.Append("Census2010CbsaMicro").Append(separator); //44
-                    sb.Append("Census2010McdFips").Append(separator); //45
-                    sb.Append("Census2010MetDivFips").Append(separator); //46
-                    sb.Append("Census2010MsaFips").Append(separator); //47
-                    sb.Append("Census2010PlaceFips").Append(separator); //48
-                    sb.Append("Census2010StateFips").Append(separator); //49
-                break;
+                    case "NineteenNinety":
+                        sb.Append("Census1990Block").Append(separator); //17
+                        sb.Append("Census1990BlockGroup").Append(separator); //18
+                        sb.Append("Census1990Tract").Append(separator); //19
+                        sb.Append("Census1990CountyFips").Append(separator); //20
+                        sb.Append("Census1990CbsaFips").Append(separator); //21
+                        sb.Append("Census1990CbsaMicro").Append(separator); //22
+                        sb.Append("Census1990McdFips").Append(separator); //23
+                        sb.Append("Census1990MetDivFips").Append(separator); //24
+                        sb.Append("Census1990MsaFips").Append(separator); //25
+                        sb.Append("Census1990PlaceFips").Append(separator); //26
+                        sb.Append("Census1990StateFips").Append(separator); //27
+                        break;
+                    case "TwoThousand":
+                        sb.Append("Census2000Block").Append(separator); //28
+                        sb.Append("Census2000BlockGroup").Append(separator); //29
+                        sb.Append("Census2000Tract").Append(separator); //30
+                        sb.Append("Census2000CountyFips").Append(separator); //31
+                        sb.Append("Census2000CbsaFips").Append(separator); //32
+                        sb.Append("Census2000CbsaMicro").Append(separator); //33
+                        sb.Append("Census2000McdFips").Append(separator); //34
+                        sb.Append("Census2000MetDivFips").Append(separator); //35
+                        sb.Append("Census2000MsaFips").Append(separator); //36
+                        sb.Append("Census2000PlaceFips").Append(separator); //37
+                        sb.Append("Census2000StateFips").Append(separator); //38
+                        break;
+                    case "TwoThousandTen":
+                        sb.Append("Census2010Block").Append(separator); //39
+                        sb.Append("Census2010BlockGroup").Append(separator); //40
+                        sb.Append("Census2010Tract").Append(separator); //41
+                        sb.Append("Census2010CountyFips").Append(separator); //42
+                        sb.Append("Census2010CbsaFips").Append(separator); //43
+                        sb.Append("Census2010CbsaMicro").Append(separator); //44
+                        sb.Append("Census2010McdFips").Append(separator); //45
+                        sb.Append("Census2010MetDivFips").Append(separator); //46
+                        sb.Append("Census2010MsaFips").Append(separator); //47
+                        sb.Append("Census2010PlaceFips").Append(separator); //48
+                        sb.Append("Census2010StateFips").Append(separator); //49
+                        break;
                     case "AllAvailable":
                         sb.Append("Census1990Block").Append(separator); //17
                         sb.Append("Census1990BlockGroup").Append(separator); //18
@@ -2446,7 +2446,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
                         sb.Append("Census2010StateFips").Append(separator); //49                    
                         break;
                 }
-            }          
+            }
             //PAYTON:MicroMatchStatus -- this is for v4.03
             sb.Append("MicroMatchStatus").Append(separator); //50           
             //PAYTON:PENALTYCODE
@@ -3874,7 +3874,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             return AsStringVerbose_V04_05(separator, version);
         }
 
-            public static string AsHeaderStringVerbose_V04_01(string separator, double version)
+        public static string AsHeaderStringVerbose_V04_01(string separator, double version)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("TransactionId").Append(separator); //0
@@ -3901,8 +3901,8 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append("FeatureMatchingSelectionMethodNotes").Append(separator); //21
             sb.Append("TimeTaken").Append(separator); //22
 
-           
-            
+
+
 
             sb.Append("MNumber").Append(separator); //37
             sb.Append("MNumberFractional").Append(separator); //38
@@ -4757,7 +4757,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             sb.Append(MatchedLocationType).Append(separator); //12
             sb.Append(TimeTaken).Append(separator); //13
 
-            
+
             return sb.ToString();
         }
 
@@ -5144,7 +5144,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
 
             return sb.ToString();
         }
-        
+
 
         // added:    CensusYear
         // replaced: Census2000 fields with Census fields (removed the 2000)

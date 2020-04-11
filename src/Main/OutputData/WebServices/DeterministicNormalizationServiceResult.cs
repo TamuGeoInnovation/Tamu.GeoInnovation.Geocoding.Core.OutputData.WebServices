@@ -20,13 +20,13 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public string QueryStatusCodeName
         {
             get { return QueryResultCodeManager.GetStatusCodeName(QueryStatusCodes); }
-            set { ; }
+            set {; }
         }
 
         public int QueryStatusCodeValue
         {
             get { return QueryResultCodeManager.GetStatusCodeValue(QueryStatusCodes); }
-            set { ; }
+            set {; }
         }
 
         #endregion
@@ -37,7 +37,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
         public string Number { get; set; }
         public string NumberFractional { get; set; }
         public string PreDirectional { get; set; }
-        public string PreQualifier{ get; set; }
+        public string PreQualifier { get; set; }
         public string PreType { get; set; }
         public string PreArticle { get; set; }
         //public string StreetName { get; set; }
@@ -110,7 +110,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
 
             sb.Append("\t]").AppendLine();
 
-            
+
             sb.Append("}").AppendLine();
 
 
@@ -198,7 +198,7 @@ namespace USC.GISResearchLab.Geocoding.Core.OutputData.WebServices
             return ret;
         }
 
-       
+
 
     }
 }
